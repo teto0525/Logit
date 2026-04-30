@@ -1,14 +1,17 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import {
   getValueObjective, saveValueObjective,
   getYearlyPlan, saveYearlyPlan,
   getAllObjectives,
 } from "@/lib/storage";
+import { getAuth, deleteAccount } from "@/lib/auth";
 import { VALUE_CATEGORIES, OBJECTIVE_COLORS } from "@/lib/constants";
 import { currentHalfId, uid } from "@/lib/dateUtils";
 import type { ValueObjective, ValueRating, Objective, ValueCategory, YearlyPlan, Project } from "@/lib/types";
+import type { AuthState } from "@/lib/auth";
 
 // ─── Helpers ──────────────────────────────────────────────
 
@@ -36,6 +39,8 @@ export default function MyPage() {
   const year = periodId.split("-")[0];
   const halfLabel = isH1 ? "상반기" : "하반기";
 
+  const router = useRouter();
+  const [auth, setAuth] = useState<AuthState | null>(null);
   const [valueData, setValueData] = useState<ValueObjective | null>(null);
   const [yearlyPlan, setYearlyPlan] = useState<YearlyPlan | null>(null);
   const [showValues, setShowValues] = useState(false);
@@ -47,11 +52,19 @@ export default function MyPage() {
   const [newEnd, setNewEnd] = useState(3);
 
   useEffect(() => {
+    setAuth(getAuth());
     const savedValue = getValueObjective(periodId);
     setValueData(savedValue ?? createDefaultValue(periodId));
     const savedYearly = getYearlyPlan(periodId);
     setYearlyPlan(savedYearly ?? createDefaultYearly(periodId));
   }, [periodId]);
+
+  const handleDeleteAccount = () => {
+    if (confirm("정말 탈퇴하시겠습니까?\n모든 데이터가 삭제되며 되돌릴 수 없습니다.")) {
+      deleteAccount();
+      router.replace("/auth");
+    }
+  };
 
   const saveValue = useCallback((updated: ValueObjective) => {
     const d = { ...updated, updatedAt: new Date().toISOString() };
@@ -128,6 +141,48 @@ export default function MyPage() {
       </header>
 
       <div style={{ padding: "0 20px", marginTop: 16 }}>
+        {/* ─── 내 정보 & 탈퇴 ─────────────────────────── */}
+        {auth && (
+          <div style={{
+            background: "var(--color-card)", borderRadius: 20, padding: 20,
+            boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+              {/* 프로필 아바타 */}
+              <div style={{
+                width: 48, height: 48, borderRadius: 14,
+                background: "var(--color-primary)", color: "var(--color-on-primary)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 20, fontWeight: 700, flexShrink: 0,
+              }}>
+                {(auth.displayName ?? "U").charAt(0).toUpperCase()}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 17, fontWeight: 700, color: "var(--color-ink)" }}>
+                  {auth.displayName ?? "사용자"}
+                </div>
+                <div style={{ fontSize: 13, color: "var(--color-muted)", marginTop: 2 }}>
+                  {auth.provider === "kakao" ? "카카오" : auth.provider === "naver" ? "네이버" : "Google"} 로그인
+                  {auth.createdAt && ` · ${auth.createdAt.slice(0, 10)} 가입`}
+                </div>
+              </div>
+            </div>
+
+            {/* 탈퇴 */}
+            <button
+              onClick={handleDeleteAccount}
+              style={{
+                width: "100%", padding: "12px 0",
+                background: "transparent", border: "1px solid var(--color-border)",
+                borderRadius: 12, fontSize: 14, fontWeight: 500,
+                color: "var(--color-error)", cursor: "pointer",
+              }}
+            >
+              탈퇴하기
+            </button>
+          </div>
+        )}
+
         {/* ─── Radar Chart Card ─────────────────────────── */}
         <div style={{
           background: "var(--color-card)", borderRadius: 20, padding: 20,

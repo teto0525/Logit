@@ -64,6 +64,13 @@ export function getSelectedFeatures(): SelectedFeature[] {
   return getAuth().selectedFeatures;
 }
 
+// ─── 탈퇴 (계정 초기화) ─────────────────────────────
+
+export function deleteAccount(): void {
+  localStorage.removeItem(AUTH_KEY);
+  localStorage.removeItem("bullet_journal_v1");
+}
+
 // ─── 설정에서 기능 변경 ──────────────────────────────
 
 export function updateSelectedFeatures(features: SelectedFeature[]): void {
