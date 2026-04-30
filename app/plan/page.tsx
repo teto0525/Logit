@@ -194,12 +194,12 @@ function WeeklySection({ weekId, onPrev, onNext }: { weekId: string; onPrev: () 
           padding: "16px 20px", background: "var(--color-card)",
         }}
       >
-        <button onClick={onPrev} style={navBtnStyle}>‹</button>
+        <button onClick={onPrev} style={navBtnStyle}><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4.5L6.5 9L11 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
         <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 18, fontWeight: 700, color: "var(--color-ink)" }}>{weekLabel}</div>
-          <div style={{ fontSize: 13, color: "var(--color-muted)" }}>{dateRange}</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: "var(--color-ink)", fontVariantNumeric: "tabular-nums" }}>{weekLabel}</div>
+          <div style={{ fontSize: 13, color: "var(--color-muted)", fontVariantNumeric: "tabular-nums" }}>{dateRange}</div>
         </div>
-        <button onClick={onNext} style={navBtnStyle}>›</button>
+        <button onClick={onNext} style={navBtnStyle}><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4.5L11.5 9L7 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
       </div>
 
       {/* Day cards */}
@@ -220,7 +220,7 @@ function WeeklySection({ weekId, onPrev, onNext }: { weekId: string; onPrev: () 
       <div style={{ padding: "4px 16px 0" }}>
         <div style={{
           background: "var(--color-card)", borderRadius: 24, padding: 24,
-          border: "1px solid var(--color-border)",
+          boxShadow: "var(--shadow-card)",
         }}>
           <button
             onClick={() => setReflectionOpen(!reflectionOpen)}
@@ -229,12 +229,12 @@ function WeeklySection({ weekId, onPrev, onNext }: { weekId: string; onPrev: () 
               width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: 0,
             }}
           >
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, color: "var(--color-ink)", margin: 0 }}>주간 회고</h2>
-            <span style={{
-              fontSize: 18, color: "var(--color-muted)",
-              transform: reflectionOpen ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.2s ease", display: "inline-block",
-            }}>▾</span>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, color: "var(--color-ink)", margin: 0, textWrap: "balance" as const }}>주간 회고</h2>
+            <span className={`chevron${reflectionOpen ? " open" : ""}`}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4.5 7L9 11.5L13.5 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </button>
           {reflectionOpen && (
             <textarea
@@ -287,11 +287,11 @@ function MonthlySection({ yearMonth, onPrev, onNext }: { yearMonth: string; onPr
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "16px 20px", background: "var(--color-card)",
       }}>
-        <button onClick={onPrev} style={navBtnStyle}>‹</button>
-        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--color-ink)" }}>
+        <button onClick={onPrev} style={navBtnStyle}><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4.5L6.5 9L11 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
+        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--color-ink)", fontVariantNumeric: "tabular-nums" }}>
           {year}년 {month}월
         </div>
-        <button onClick={onNext} style={navBtnStyle}>›</button>
+        <button onClick={onNext} style={navBtnStyle}><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4.5L11.5 9L7 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></button>
       </div>
 
       {/* Calendar Grid */}
@@ -341,8 +341,12 @@ function MonthlySection({ yearMonth, onPrev, onNext }: { yearMonth: string; onPr
                 <span style={{ flex: 1, fontSize: 14, color: "var(--color-body)" }}>{appt.title}</span>
                 <button
                   onClick={() => save({ ...plan, appointments: plan.appointments.filter((a) => a.id !== appt.id) })}
-                  style={{ background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 18, cursor: "pointer", padding: 0 }}
-                >×</button>
+                  style={{ background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 18, cursor: "pointer", padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                  </svg>
+                </button>
               </div>
             );
           })}
@@ -357,7 +361,7 @@ function MonthlySection({ yearMonth, onPrev, onNext }: { yearMonth: string; onPr
         {/* Let Go (collapsible) */}
         <div style={{
           background: "var(--color-card)", borderRadius: 24, padding: 24,
-          border: "1px solid var(--color-border)", marginBottom: 16,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
           <button
             onClick={() => setLetGoOpen(!letGoOpen)}
@@ -366,12 +370,12 @@ function MonthlySection({ yearMonth, onPrev, onNext }: { yearMonth: string; onPr
               width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: 0,
             }}
           >
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>덜어낼 것</h2>
-            <span style={{
-              fontSize: 18, color: "var(--color-muted)",
-              transform: letGoOpen ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.2s ease", display: "inline-block",
-            }}>▾</span>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)", textWrap: "balance" as const }}>덜어낼 것</h2>
+            <span className={`chevron${letGoOpen ? " open" : ""}`}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4.5 7L9 11.5L13.5 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </button>
           {letGoOpen && (
             <div style={{ marginTop: 12 }}>
@@ -405,10 +409,11 @@ function MonthlySection({ yearMonth, onPrev, onNext }: { yearMonth: string; onPr
 // ─── Shared Sub-components ─────────────────────────────────
 
 const navBtnStyle: React.CSSProperties = {
-  width: 40, height: 40, borderRadius: 12, border: "none",
+  width: 44, height: 44, borderRadius: 9999, border: "none",
   background: "var(--color-background)", color: "var(--color-body)",
   fontSize: 18, fontWeight: 500, cursor: "pointer",
   display: "inline-flex", alignItems: "center", justifyContent: "center",
+  boxShadow: "var(--shadow-button)",
 };
 
 function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
@@ -427,7 +432,7 @@ function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
   return (
     <div style={{
       background: "var(--color-card)", borderRadius: 24, padding: 24,
-      marginBottom: 12, border: "1px solid var(--color-border)",
+      marginBottom: 12, boxShadow: "var(--shadow-card)",
     }}>
       <div style={{ fontSize: 15, fontWeight: 700, color: "var(--color-ink)", marginBottom: 10 }}>{label}</div>
 
@@ -450,8 +455,12 @@ function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
             textDecoration: task.done ? "line-through" : "none",
           }}>{task.title}</span>
           <button onClick={() => onDeleteTask(task.id)} style={{
-            background: "transparent", border: "none", color: "var(--color-muted-soft)", fontSize: 14, cursor: "pointer", padding: 0,
-          }}>×</button>
+            background: "transparent", border: "none", color: "var(--color-muted-soft)", fontSize: 14, cursor: "pointer", padding: 0, display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
       ))}
 
@@ -505,7 +514,7 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
 
   return (
     <div style={{ padding: "8px 20px 20px" }}>
-      <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 24, border: "1px solid var(--color-border)" }}>
+      <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 24, boxShadow: "var(--shadow-card)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4, marginBottom: 6 }}>
           {DOW.map((d, i) => (
             <div key={d} style={{ textAlign: "center", fontSize: 12, fontWeight: 700, color: i === 0 ? "#EF4444" : i === 6 ? "#3B82F6" : "#9CA3AF", padding: "2px 0" }}>{d}</div>
@@ -542,9 +551,9 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
 
 function SectionCard({ title, onAdd, children }: { title: string; onAdd: () => void; children: React.ReactNode }) {
   return (
-    <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 24, marginBottom: 16, border: "1px solid var(--color-border)" }}>
+    <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 24, marginBottom: 16, boxShadow: "var(--shadow-card)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>{title}</h2>
+        <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)", textWrap: "balance" as const }}>{title}</h2>
         <button onClick={onAdd} style={{
           width: 36, height: 36, borderRadius: 9999, border: "none", background: "var(--color-primary)",
           color: "#fff", fontSize: 20, lineHeight: 1, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
@@ -563,7 +572,11 @@ function EditableRow({ value, placeholder, onChange, onRemove }: {
       <span style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--color-primary)", flexShrink: 0 }} />
       <input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
         style={{ flex: 1, fontSize: 14, padding: "10px 14px", background: "var(--color-background)", border: "none", borderRadius: 12, color: "var(--color-ink)" }} />
-      <button onClick={onRemove} style={{ background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 18, cursor: "pointer", padding: 0 }}>×</button>
+      <button onClick={onRemove} style={{ background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 18, cursor: "pointer", padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
+      </button>
     </div>
   );
 }

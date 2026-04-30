@@ -94,7 +94,7 @@ export default function YearlyPage() {
           background: "var(--color-card)",
           borderRadius: 24,
           padding: 24,
-          border: "1px solid var(--color-border)",
+          boxShadow: "var(--shadow-card)",
           margin: "0 20px 16px",
           overflowX: "auto",
         }}
@@ -192,7 +192,9 @@ export default function YearlyPage() {
                     flexShrink: 0,
                   }}
                 >
-                  ×
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
                 </button>
               </div>
 
@@ -242,7 +244,7 @@ export default function YearlyPage() {
               background: "var(--color-card)",
               borderRadius: 24,
               padding: 24,
-              border: "1px solid var(--color-border)",
+              boxShadow: "var(--shadow-card)",
             }}
           >
             <input
@@ -358,7 +360,7 @@ export default function YearlyPage() {
             background: "var(--color-card)",
             borderRadius: 24,
             padding: 24,
-            border: "1px solid var(--color-border)",
+            boxShadow: "var(--shadow-card)",
             margin: "16px 20px 0",
           }}
         >

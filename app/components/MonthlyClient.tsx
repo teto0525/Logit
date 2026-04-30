@@ -268,7 +268,7 @@ function CalendarGrid({
           background: "var(--color-card, #FFFFFF)",
           borderRadius: 24,
           padding: 24,
-          border: "1px solid var(--color-border)",
+          boxShadow: "var(--shadow-card)",
         }}
       >
         {/* 요일 헤더 */}
@@ -367,7 +367,7 @@ function CalendarGrid({
                       />
                     ))}
                     {dayAppts.length > 3 && (
-                      <span style={{ fontSize: 9, color: "var(--color-muted)", lineHeight: "6px" }}>
+                      <span style={{ fontSize: 9, color: "var(--color-muted)", lineHeight: "6px", fontVariantNumeric: "tabular-nums" }}>
                         +{dayAppts.length - 3}
                       </span>
                     )}
@@ -400,7 +400,7 @@ function Section({
         borderRadius: 24,
         padding: 24,
         marginBottom: 16,
-        border: "1px solid var(--color-border)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       <div
@@ -418,6 +418,7 @@ function Section({
             fontWeight: 700,
             margin: 0,
             color: "var(--color-ink, var(--color-foreground))",
+            textWrap: "balance" as const,
           }}
         >
           {title}
@@ -516,7 +517,9 @@ function EditableRow({
           justifyContent: "center",
         }}
       >
-        ×
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
       </button>
     </div>
   );
@@ -556,6 +559,7 @@ function AppointmentRow({
           fontWeight: 600,
           color: "var(--color-foreground)",
           lineHeight: 1.2,
+          fontVariantNumeric: "tabular-nums",
         }}
       >
         <div>{Number(dayStr)}일</div>
@@ -609,7 +613,9 @@ function AppointmentRow({
           justifyContent: "center",
         }}
       >
-        ×
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
       </button>
     </div>
   );

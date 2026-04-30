@@ -134,10 +134,50 @@ export default function MyPage() {
 
   return (
     <div style={{ paddingBottom: 48 }}>
-      {/* Header */}
-      <header style={{ padding: "24px 24px 20px", background: "var(--color-background)" }}>
-        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 36, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>마이</h1>
-        <p style={{ fontSize: 14, color: "var(--color-accent-text)", fontWeight: 500, margin: "4px 0 0" }}>{year} {halfLabel}</p>
+      {/* Header — lavender gradient banner */}
+      <header
+        style={{
+          background: "linear-gradient(160deg, #8B72CE 0%, #B4A0E5 50%, #D4C5F0 100%)",
+          padding: "36px 24px 28px",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {/* Avatar */}
+          <div
+            style={{
+              width: 60,
+              height: 60,
+              borderRadius: 9999,
+              background: "rgba(255,255,255,0.25)",
+              border: "2px solid rgba(255,255,255,0.6)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 24,
+              fontWeight: 700,
+              color: "#FFFFFF",
+              flexShrink: 0,
+            }}
+          >
+            {(auth?.displayName ?? "U").charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <h1
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: 24,
+                fontWeight: 700,
+                margin: 0,
+                color: "#FFFFFF",
+              }}
+            >
+              {auth?.displayName ?? "사용자"}
+            </h1>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", fontWeight: 500, margin: "2px 0 0" }}>
+              {year} {halfLabel}
+            </p>
+          </div>
+        </div>
       </header>
 
       <div style={{ padding: "0 20px", marginTop: 16 }}>
@@ -145,27 +185,12 @@ export default function MyPage() {
         {auth && (
           <div style={{
             background: "var(--color-card)", borderRadius: 24, padding: 24,
-            border: "1px solid var(--color-border)", marginBottom: 16,
+            boxShadow: "var(--shadow-card)", marginBottom: 16,
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
-              {/* 프로필 아바타 — 원형 라벤더 */}
-              <div style={{
-                width: 48, height: 48, borderRadius: 9999,
-                background: "var(--color-accent)", color: "#FFFFFF",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 20, fontWeight: 700, flexShrink: 0,
-              }}>
-                {(auth.displayName ?? "U").charAt(0).toUpperCase()}
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 17, fontWeight: 700, color: "var(--color-ink)" }}>
-                  {auth.displayName ?? "사용자"}
-                </div>
-                <div style={{ fontSize: 13, color: "var(--color-muted)", marginTop: 2 }}>
-                  {auth.provider === "kakao" ? "카카오" : auth.provider === "naver" ? "네이버" : "Google"} 로그인
-                  {auth.createdAt && ` · ${auth.createdAt.slice(0, 10)} 가입`}
-                </div>
-              </div>
+            {/* 로그인 정보 */}
+            <div style={{ fontSize: 13, color: "var(--color-muted)", marginBottom: 16 }}>
+              {auth.provider === "kakao" ? "카카오" : auth.provider === "naver" ? "네이버" : "Google"} 로그인
+              {auth.createdAt && ` · ${auth.createdAt.slice(0, 10)} 가입`}
             </div>
 
             {/* 탈퇴 */}
@@ -186,7 +211,7 @@ export default function MyPage() {
         {/* ─── Radar Chart Card ─────────────────────────── */}
         <div style={{
           background: "var(--color-card)", borderRadius: 24, padding: 24,
-          border: "1px solid var(--color-border)", marginBottom: 16,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>나의 가치</h2>
@@ -219,7 +244,7 @@ export default function MyPage() {
                       onChange={(e) => updateScore(rating.category, Number(e.target.value))}
                       style={{ flex: 1, accentColor: "var(--color-accent)" }}
                     />
-                    <span style={{ fontSize: 14, fontWeight: 700, width: 20, textAlign: "center", color: "var(--color-primary)" }}>{rating.score}</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, width: 20, textAlign: "center", color: "var(--color-primary)", fontVariantNumeric: "tabular-nums" }}>{rating.score}</span>
                   </div>
                 );
               })}
@@ -230,7 +255,7 @@ export default function MyPage() {
         {/* ─── Objectives ──────────────────────────────── */}
         <div style={{
           background: "var(--color-card)", borderRadius: 24, padding: 24,
-          border: "1px solid var(--color-border)", marginBottom: 16,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>반기 목표</h2>
 
@@ -242,8 +267,13 @@ export default function MyPage() {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontSize: 15, fontWeight: 600, color: "var(--color-ink)" }}>{obj.title}</span>
                 <button onClick={() => removeObjective(obj.id)} style={{
-                  background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 18, cursor: "pointer", padding: "0 4px",
-                }}>×</button>
+                  background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 18, cursor: "pointer", padding: "8px 10px", margin: "-8px -10px -8px 0",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                  </svg>
+                </button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
                 {VALUE_CATEGORIES.map((v) => {
@@ -280,7 +310,7 @@ export default function MyPage() {
         {/* ─── Gantt Mini ──────────────────────────────── */}
         <div style={{
           background: "var(--color-card)", borderRadius: 24, padding: 24,
-          border: "1px solid var(--color-border)", marginBottom: 16,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>반기 프로젝트</h2>
@@ -302,8 +332,13 @@ export default function MyPage() {
                   <span style={{ width: 8, height: 8, borderRadius: "50%", background: project.color, flexShrink: 0 }} />
                   <span style={{ fontSize: 14, fontWeight: 600, color: "var(--color-ink)", flex: 1 }}>{project.title}</span>
                   <button onClick={() => removeProject(project.id)} style={{
-                    background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 14, cursor: "pointer", padding: 0,
-                  }}>×</button>
+                    background: "transparent", border: "none", color: "var(--color-muted)", fontSize: 14, cursor: "pointer", padding: "10px 12px", margin: "-10px -12px -10px 0",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                    </svg>
+                  </button>
                 </div>
                 {/* Mini bar */}
                 <div style={{ display: "flex", gap: 2 }}>
@@ -380,7 +415,7 @@ export default function MyPage() {
         {/* ─── Settings ────────────────────────────────── */}
         <div style={{
           background: "var(--color-card)", borderRadius: 24, padding: 24,
-          border: "1px solid var(--color-border)", marginBottom: 16,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>설정</h2>
 
@@ -432,21 +467,26 @@ export default function MyPage() {
 
 function SettingRow({ label, onClick, danger }: { label: string; onClick: () => void; danger?: boolean }) {
   return (
-    <button onClick={onClick} style={{
-      width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
-      padding: "14px 0", background: "transparent", border: "none", borderBottom: "1px solid var(--color-background)",
-      cursor: "pointer", textAlign: "left",
-    }}>
+    <button onClick={onClick}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "var(--color-surface-strong)"; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
+      style={{
+        width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
+        padding: "14px 0", background: "transparent", border: "none", borderBottom: "1px solid var(--color-background)",
+        cursor: "pointer", textAlign: "left",
+      }}>
       <span style={{ fontSize: 15, fontWeight: 500, color: danger ? "var(--color-error)" : "var(--color-body)" }}>{label}</span>
-      <span style={{ fontSize: 16, color: "var(--color-muted)" }}>›</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M6 4L10 8L6 12" stroke="var(--color-muted)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
     </button>
   );
 }
 
 function RadarChart({ ratings }: { ratings: ValueRating[] }) {
-  const cx = 130;
-  const cy = 130;
-  const maxR = 100;
+  const cx = 135;
+  const cy = 135;
+  const maxR = 105;
   const n = ratings.length;
 
   function point(i: number, r: number): [number, number] {
@@ -459,7 +499,7 @@ function RadarChart({ ratings }: { ratings: ValueRating[] }) {
   const dataPath = dataPoints.map((p, i) => `${i === 0 ? "M" : "L"}${p[0]},${p[1]}`).join(" ") + "Z";
 
   return (
-    <svg width={260} height={260} viewBox="0 0 260 260">
+    <svg width={270} height={270} viewBox="0 0 270 270">
       {rings.map((r) => {
         const pts = Array.from({ length: n }, (_, i) => point(i, (r / 5) * maxR));
         const path = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p[0]},${p[1]}`).join(" ") + "Z";

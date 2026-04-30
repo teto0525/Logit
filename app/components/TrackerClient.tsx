@@ -121,15 +121,15 @@ export default function TrackerPage() {
 
       {/* Summary Cards */}
       <div style={{ display: "flex", gap: 10, padding: "0 20px 16px" }}>
-        <SummaryCard label="연속" value={`${streak.currentStreak}일`} color="var(--color-warning)" />
-        <SummaryCard label="달성률" value={`${overallPct}%`} color="var(--color-success)" />
-        <SummaryCard label="총 달성" value={`${streak.totalCompletedDays}일`} color="var(--color-primary)" />
+        <SummaryCard label="연속" value={`${streak.currentStreak}일`} gradientIndex={0} />
+        <SummaryCard label="달성률" value={`${overallPct}%`} gradientIndex={1} />
+        <SummaryCard label="총 달성" value={`${streak.totalCompletedDays}일`} gradientIndex={2} />
       </div>
 
       {/* Habit Grid */}
       <div style={{
-        margin: "0 0 4px", borderRadius: 20, background: "var(--color-card)",
-        boxShadow: "0 2px 12px rgba(28,25,23,0.06)", overflow: "hidden",
+        margin: "0 0 4px", borderRadius: 24, background: "var(--color-card)",
+        boxShadow: "var(--shadow-card)", overflow: "hidden",
       }}>
         <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
           <table style={{ borderCollapse: "separate", borderSpacing: 0, tableLayout: "fixed", minWidth: "max-content" }}>
@@ -191,8 +191,8 @@ export default function TrackerPage() {
       {/* Progress Bars */}
       {tracker.habits.length > 0 && (
         <div style={{ padding: "16px 20px" }}>
-          <div style={{ background: "var(--color-card)", borderRadius: 20, padding: 20, boxShadow: "0 2px 12px rgba(28,25,23,0.06)" }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 14, margin: "0 0 14px", color: "var(--color-ink)" }}>습관별 달성률</h3>
+          <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 20, boxShadow: "var(--shadow-card)" }}>
+            <h3 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, marginBottom: 14, margin: "0 0 14px", color: "var(--color-ink)" }}>습관별 달성률</h3>
             {tracker.habits.map((habit) => {
               const done = tracker.records.filter((r) => r.habitId === habit.id && r.done).length;
               const pct = totalDays > 0 ? Math.round((done / totalDays) * 100) : 0;
@@ -244,14 +244,31 @@ export default function TrackerPage() {
 
 // ─── Sub-components ──────────────────────────────────────
 
-function SummaryCard({ label, value, color }: { label: string; value: string; color: string }) {
+const SUMMARY_GRADIENTS = [
+  "linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%)",  // 연속 — 앰버
+  "linear-gradient(135deg, #10B981 0%, #34D399 100%)",  // 달성률 — 그린
+  "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",  // 총달성 — 라벤더
+];
+
+function SummaryCard({ label, value, gradientIndex }: { label: string; value: string; gradientIndex: number }) {
   return (
     <div style={{
-      flex: 1, background: "var(--color-card)", borderRadius: 16, padding: "16px 12px",
-      boxShadow: "0 2px 12px rgba(28,25,23,0.06)", textAlign: "center",
+      flex: 1,
+      background: SUMMARY_GRADIENTS[gradientIndex],
+      borderRadius: 24,
+      padding: "20px 12px",
+      textAlign: "center",
     }}>
-      <div style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 600, color, lineHeight: 1, marginBottom: 4 }}>{value}</div>
-      <div style={{ fontSize: 12, fontWeight: 600, color: "var(--color-muted)" }}>{label}</div>
+      <div style={{
+        fontFamily: "var(--font-display)",
+        fontSize: 26,
+        fontWeight: 700,
+        color: "#FFFFFF",
+        lineHeight: 1,
+        marginBottom: 4,
+        fontVariantNumeric: "tabular-nums",
+      }}>{value}</div>
+      <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)" }}>{label}</div>
     </div>
   );
 }
@@ -292,7 +309,18 @@ function HabitRow({ habit, days, yearMonth, records, onToggle, onDelete, pct }: 
               width: 24, height: 24, borderRadius: "50%", border: "none", background: "transparent",
               cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center",
               padding: 0, fontSize: 16, color: done ? "var(--color-primary)" : "#B8B0A6",
-            }}>{done ? "●" : "○"}</button>
+            }}>
+              {done ? (
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <circle cx="9" cy="9" r="8" fill="var(--color-primary)"/>
+                  <path d="M5.5 9L7.5 11L12.5 7" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <circle cx="9" cy="9" r="7.5" stroke="var(--color-muted-soft)" strokeWidth="1.5"/>
+                </svg>
+              )}
+            </button>
           </td>
         );
       })}

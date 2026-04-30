@@ -95,8 +95,8 @@ export default function ValuePage() {
       <div
         style={{
           background: "var(--color-card)",
-          borderRadius: 20,
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          borderRadius: 24,
+          boxShadow: "var(--shadow-card)",
           margin: "0 20px 16px",
           padding: 20,
           display: "flex",
@@ -110,15 +110,16 @@ export default function ValuePage() {
       <div
         style={{
           background: "var(--color-card)",
-          borderRadius: 20,
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          borderRadius: 24,
+          boxShadow: "var(--shadow-card)",
           margin: "0 20px 16px",
           padding: 20,
         }}
       >
         <h3
           style={{
-            fontSize: 17,
+            fontFamily: "var(--font-display)",
+            fontSize: 18,
             fontWeight: 700,
             letterSpacing: "-0.3px",
             marginBottom: 16,
@@ -177,15 +178,16 @@ export default function ValuePage() {
       <div
         style={{
           background: "var(--color-card)",
-          borderRadius: 20,
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          borderRadius: 24,
+          boxShadow: "var(--shadow-card)",
           margin: "0 20px 16px",
           padding: 20,
         }}
       >
         <h3
           style={{
-            fontSize: 17,
+            fontFamily: "var(--font-display)",
+            fontSize: 18,
             fontWeight: 700,
             letterSpacing: "-0.3px",
             marginBottom: 16,
@@ -216,9 +218,14 @@ export default function ValuePage() {
                   fontSize: 18,
                   cursor: "pointer",
                   padding: "0 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                ×
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
               </button>
             </div>
             {/* 가치 연결 태그 */}
@@ -277,7 +284,7 @@ export default function ValuePage() {
               background: "var(--color-primary)",
               color: "#ffffff",
               border: "none",
-              borderRadius: 12,
+              borderRadius: 9999,
               padding: "0 20px",
               fontSize: 15,
               fontWeight: 700,
@@ -295,9 +302,9 @@ export default function ValuePage() {
 // ─── 레이더 차트 (순수 SVG) ─────────────────────────────
 
 function RadarChart({ ratings }: { ratings: ValueRating[] }) {
-  const cx = 140;
-  const cy = 140;
-  const maxR = 110;
+  const cx = 135;
+  const cy = 135;
+  const maxR = 105;
   const n = ratings.length;
 
   function point(i: number, r: number): [number, number] {
@@ -313,7 +320,7 @@ function RadarChart({ ratings }: { ratings: ValueRating[] }) {
   const dataPath = dataPoints.map((p, i) => `${i === 0 ? "M" : "L"}${p[0]},${p[1]}`).join(" ") + "Z";
 
   return (
-    <svg width={280} height={280} viewBox="0 0 280 280">
+    <svg width={270} height={270} viewBox="0 0 270 270">
       {/* 배경 링 */}
       {rings.map((r) => {
         const pts = Array.from({ length: n }, (_, i) => point(i, (r / 5) * maxR));

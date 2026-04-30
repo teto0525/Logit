@@ -93,11 +93,12 @@ export default function ReportPage() {
   return (
     <div style={{ paddingBottom: 48 }}>
       {/* Header */}
-      <header style={{ padding: "20px 20px 0", background: "var(--color-card)" }}>
-        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, margin: "0 0 16px", color: "var(--color-ink)" }}>리포트</h1>
+      <header style={{ padding: "20px 20px 0", background: "linear-gradient(160deg, #C0D4F0 0%, #D8EAF8 60%, #EDE8F8 100%)" }}>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 600, fontStyle: "italic", margin: "0 0 4px", color: "#1A3A5C" }}>리포트</h1>
+        <p style={{ fontSize: 13, color: "#4A6A8C", fontWeight: 500, margin: "0 0 16px" }}>나의 패턴을 분석해보세요</p>
 
         {/* Period Underline Tab */}
-        <div style={{ display: "flex", borderBottom: "1px solid var(--color-border)" }}>
+        <div style={{ display: "flex", borderBottom: "1px solid rgba(26,58,92,0.15)" }}>
           {(["week", "month", "all"] as const).map((p) => (
             <button
               key={p}
@@ -122,10 +123,10 @@ export default function ReportPage() {
       <div style={{ padding: "0 20px", marginTop: 16 }}>
         {/* Focus Hours Chart */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 20,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>집중 시간 추이</h3>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>집중 시간 추이</h3>
 
           {/* Simple bar chart */}
           {focusByDay.length === 0 ? (
@@ -170,10 +171,10 @@ export default function ReportPage() {
 
         {/* Category Distribution */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 20,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>카테고리 분포</h3>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>카테고리 분포</h3>
 
           {catTotal === 0 ? (
             <p style={{ fontSize: 14, color: "var(--color-muted)", textAlign: "center", padding: "24px 0" }}>데이터가 없어요</p>
@@ -214,10 +215,10 @@ export default function ReportPage() {
         {/* Habit Achievement */}
         {habitStats.length > 0 && (
           <div style={{
-            background: "var(--color-card)", borderRadius: 20, padding: 20,
-            boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+            background: "var(--color-card)", borderRadius: 24, padding: 20,
+            boxShadow: "var(--shadow-card)", marginBottom: 16,
           }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 12px", color: "var(--color-ink)" }}>습관 달성 트렌드</h3>
+            <h3 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 12px", color: "var(--color-ink)" }}>습관 달성 트렌드</h3>
 
             {bestHabit && (
               <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
@@ -260,10 +261,10 @@ export default function ReportPage() {
 
         {/* Energy Pattern */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 20,
+          boxShadow: "var(--shadow-card)", marginBottom: 16,
         }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 4px", color: "var(--color-ink)" }}>에너지 패턴</h3>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 4px", color: "var(--color-ink)" }}>에너지 패턴</h3>
           <p style={{ fontSize: 13, color: "var(--color-muted)", margin: "0 0 16px" }}>
             평균 에너지: <strong style={{ color: "var(--color-ink)" }}>{overallEnergy} / 5</strong>
           </p>

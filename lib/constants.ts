@@ -22,11 +22,11 @@ export const TIME_CATEGORIES: {
   label: string;
   color: string;
 }[] = [
-  { key: "focus", label: "집중", color: "#111111" },
-  { key: "meeting", label: "미팅", color: "#6B7280" },
+  { key: "focus", label: "집중", color: "#7B5EA7" },
+  { key: "meeting", label: "미팅", color: "#3B82F6" },
   { key: "rest", label: "휴식", color: "#10B981" },
-  { key: "routine", label: "루틴", color: "#9CA3AF" },
-  { key: "personal", label: "개인", color: "#8B5CF6" },
+  { key: "routine", label: "루틴", color: "#F59E0B" },
+  { key: "personal", label: "개인", color: "#EC4899" },
 ];
 
 export const HOURS = Array.from({ length: 18 }, (_, i) => i + 6); // 6~23

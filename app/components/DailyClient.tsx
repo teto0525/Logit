@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { PageHeader } from "@/app/components/PageHeader";
 import {
@@ -98,12 +98,22 @@ function getStreakMessage(streak: number): string {
   return "이미 거목 수준이에요!";
 }
 
-const CATEGORY_ICONS: Record<TimeCategory, string> = {
-  focus: "■",
-  meeting: "◆",
-  rest: "○",
-  routine: "□",
-  personal: "●",
+const CATEGORY_ICONS: Record<TimeCategory, React.ReactNode> = {
+  focus: (
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><rect x="1" y="1" width="8" height="8" rx="1.5"/></svg>
+  ),
+  meeting: (
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 1l4 8H1l4-8z"/></svg>
+  ),
+  rest: (
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="5" cy="5" r="3.5"/></svg>
+  ),
+  routine: (
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1.5" y="1.5" width="7" height="7" rx="1"/></svg>
+  ),
+  personal: (
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="3.5"/></svg>
+  ),
 };
 
 // ─── Main Component ───────────────────────────────────────
@@ -281,7 +291,7 @@ export default function DailyPage() {
       {/* 인사 + 스트릭 카드 */}
       <div style={{ padding: "0 20px", marginBottom: 16 }}>
         {/* Greeting */}
-        <p style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 400, fontStyle: "italic", color: "var(--color-ink)", margin: "0 0 12px" }}>
+        <p style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 400, fontStyle: "italic", color: "var(--color-ink)", margin: "0 0 12px", textWrap: "balance" as const }}>
           {getGreeting()}
         </p>
 
@@ -296,12 +306,12 @@ export default function DailyPage() {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <div>
-              <span style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, lineHeight: 1 }}>
+              <span style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
                 {streak.currentStreak}일
               </span>
               <span style={{ fontSize: 14, fontWeight: 500, opacity: 0.85, marginLeft: 6 }}>연속 달성</span>
             </div>
-            <div style={{ fontSize: 13, fontWeight: 500, opacity: 0.7 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, opacity: 0.7, fontVariantNumeric: "tabular-nums" }}>
               최고 {streak.longestStreak}일
             </div>
           </div>
@@ -350,17 +360,18 @@ export default function DailyPage() {
             background: "var(--color-card)",
             borderRadius: 24,
             padding: "24px",
-            border: "1px solid var(--color-border)",
+            boxShadow: "var(--shadow-card)",
           }}
         >
           {/* Section header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)", textWrap: "balance" as const }}>
               오늘의 집중
             </h2>
             <span style={{
               fontSize: 15,
               fontWeight: 700,
+              fontVariantNumeric: "tabular-nums",
               color: focusHours >= 4 ? "var(--color-success)" : "var(--color-primary)",
             }}>
               {focusHours}h / 4h
@@ -391,16 +402,17 @@ export default function DailyPage() {
               background: "var(--color-card)",
               borderRadius: 24,
               padding: "24px",
-              border: "1px solid var(--color-border)",
+              boxShadow: "var(--shadow-card)",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-              <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
+              <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)", textWrap: "balance" as const }}>
                 오늘의 습관
               </h2>
               <span style={{
                 fontSize: 14,
                 fontWeight: 600,
+                fontVariantNumeric: "tabular-nums",
                 color: habitsDoneCount === habits.length ? "var(--color-success)" : "var(--color-muted)",
               }}>
                 {habitsDoneCount}/{habits.length}
@@ -427,10 +439,16 @@ export default function DailyPage() {
                       fontSize: 14,
                       fontWeight: 600,
                       cursor: "pointer",
-                      transition: "all 0.2s ease",
+                      transition: "background 0.2s ease, color 0.2s ease",
                     }}
                   >
-                    <span style={{ fontSize: 16 }}>{done ? "●" : "○"}</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      {done ? (
+                        <circle cx="8" cy="8" r="7" fill="currentColor" />
+                      ) : (
+                        <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1" />
+                      )}
+                    </svg>
                     {habit.title}
                   </button>
                 );
@@ -447,7 +465,7 @@ export default function DailyPage() {
             background: "var(--color-card)",
             borderRadius: 24,
             padding: "24px",
-            border: "1px solid var(--color-border)",
+            boxShadow: "var(--shadow-card)",
           }}
         >
           <button
@@ -463,17 +481,13 @@ export default function DailyPage() {
               padding: 0,
             }}
           >
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)", textWrap: "balance" as const }}>
               저녁 리뷰
             </h2>
-            <span style={{
-              fontSize: 18,
-              color: "var(--color-muted)",
-              transform: reviewOpen ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform 0.2s ease",
-              display: "inline-block",
-            }}>
-              ▾
+            <span className={`chevron${reviewOpen ? " open" : ""}`}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4.5 7L9 11.5L13.5 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </span>
           </button>
 
@@ -530,7 +544,7 @@ export default function DailyPage() {
                           fontSize: 14,
                           fontWeight: 600,
                           cursor: "pointer",
-                          transition: "all 0.2s ease",
+                          transition: "background 0.2s ease, color 0.2s ease",
                         }}
                       >
                         {level}
@@ -597,7 +611,7 @@ function TimeBlockRow({
             cursor: "pointer",
           }}
         >
-          <span style={{ fontSize: 12 }}>{CATEGORY_ICONS[block.category]}</span>
+          <span style={{ display: "inline-flex" }}>{CATEGORY_ICONS[block.category]}</span>
           <span>{formatHour(block.hour)}</span>
         </button>
 
@@ -615,7 +629,7 @@ function TimeBlockRow({
           />
         </div>
 
-        {/* Checkbox */}
+        {/* Checkbox — 22px visible, 40px hit area via position:relative */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button
             onClick={onToggleDone}
@@ -631,8 +645,9 @@ function TimeBlockRow({
               alignItems: "center",
               justifyContent: "center",
               padding: 0,
-              transition: "all 0.2s ease",
+              transition: "background 0.2s ease, border-color 0.2s ease",
               flexShrink: 0,
+              position: "relative",
             }}
           >
             {block.done && (
@@ -667,16 +682,16 @@ function TimeBlockRow({
                 style={{
                   fontSize: 12,
                   fontWeight: 600,
-                  padding: "5px 12px",
+                  padding: "8px 12px",
                   borderRadius: 9999,
                   border: "none",
                   background: isActive ? cat.color : "var(--color-background)",
                   color: isActive ? "#FFFFFF" : "var(--color-muted)",
                   cursor: "pointer",
-                  transition: "all 0.2s ease",
+                  transition: "background 0.2s ease, color 0.2s ease",
                 }}
               >
-                {CATEGORY_ICONS[cat.key]} {cat.label}
+                <span style={{ display: "inline-flex" }}>{CATEGORY_ICONS[cat.key]}</span> {cat.label}
               </button>
             );
           })}

@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import React from "react";
 
 interface PageHeaderProps {
   title: string;
   subtitle?: string;
   prevHref?: string;
   nextHref?: string;
-  prevLabel?: string;
-  nextLabel?: string;
+  prevLabel?: React.ReactNode;
+  nextLabel?: React.ReactNode;
   transparent?: boolean;
 }
 
@@ -17,8 +18,16 @@ export function PageHeader({
   subtitle,
   prevHref,
   nextHref,
-  prevLabel = "‹",
-  nextLabel = "›",
+  prevLabel = (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M11 4.5L6.5 9L11 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
+  nextLabel = (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M7 4.5L11.5 9L7 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
   transparent = false,
 }: PageHeaderProps) {
   return (
@@ -36,6 +45,7 @@ export function PageHeader({
         {prevHref && (
           <Link
             href={prevHref}
+            className="nav-btn"
             style={{
               color: "var(--color-body)",
               textDecoration: "none",
@@ -48,8 +58,8 @@ export function PageHeader({
               justifyContent: "center",
               borderRadius: 9999,
               background: "transparent",
-              border: "1px solid var(--color-border)",
-              transition: "background 0.2s ease",
+              boxShadow: "var(--shadow-button)",
+              transition: "box-shadow 0.2s ease",
             }}
           >
             {prevLabel}
@@ -86,6 +96,7 @@ export function PageHeader({
         {nextHref && (
           <Link
             href={nextHref}
+            className="nav-btn"
             style={{
               color: "var(--color-body)",
               textDecoration: "none",
@@ -98,8 +109,8 @@ export function PageHeader({
               justifyContent: "center",
               borderRadius: 9999,
               background: "transparent",
-              border: "1px solid var(--color-border)",
-              transition: "background 0.2s ease",
+              boxShadow: "var(--shadow-button)",
+              transition: "box-shadow 0.2s ease",
             }}
           >
             {nextLabel}

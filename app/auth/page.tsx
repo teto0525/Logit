@@ -60,16 +60,18 @@ export default function AuthPage() {
           style={{
             width: 72,
             height: 72,
-            borderRadius: 20,
+            borderRadius: "22%",
             background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             marginBottom: 24,
             boxShadow: "0 8px 24px rgba(139, 114, 206, 0.25)",
+            position: "relative",
           }}
         >
-          <span style={{ fontFamily: "var(--font-display)", fontSize: 32, color: "#fff", fontWeight: 700 }}>L</span>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: 34, color: "#fff", fontWeight: 700, marginTop: -2 }}>L</span>
+          <span style={{ position: "absolute", top: 11, right: 11, width: 8, height: 8, borderRadius: "50%", background: "rgba(255,255,255,0.5)" }} />
         </div>
 
         {/* 앱 이름 */}
@@ -83,7 +85,7 @@ export default function AuthPage() {
             marginBottom: 10,
           }}
         >
-          Logit
+          <>Logit<span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "var(--color-accent)", marginLeft: 3, position: "relative", top: -2 }} /></>
         </h1>
 
         {/* 서브 텍스트 */}
@@ -94,6 +96,7 @@ export default function AuthPage() {
             textAlign: "center",
             lineHeight: 1.7,
             maxWidth: 280,
+            textWrap: "pretty" as const,
           }}
         >
           {isReturning
@@ -154,7 +157,7 @@ export default function AuthPage() {
             width: "100%",
             height: 56,
             borderRadius: 9999,
-            border: "1px solid var(--color-border)",
+            boxShadow: "var(--shadow-button)",
             background: "#FFFFFF",
             color: "var(--color-ink)",
             fontSize: 15,

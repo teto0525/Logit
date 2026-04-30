@@ -9,7 +9,7 @@ import { getAuth, completeOnboarding, type SelectedFeature } from "@/lib/auth";
 const INTRO_SLIDES = [
   {
     icon: (
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <svg width="72" height="72" viewBox="0 0 48 48" fill="none">
         <circle cx="24" cy="24" r="22" stroke="#8B72CE" strokeWidth="1.5" />
         <path d="M24 12v12l8 4" stroke="#8B72CE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="24" cy="24" r="3" fill="#8B72CE" />
@@ -21,7 +21,7 @@ const INTRO_SLIDES = [
   },
   {
     icon: (
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <svg width="72" height="72" viewBox="0 0 48 48" fill="none">
         <rect x="8" y="10" width="32" height="28" rx="4" stroke="#8B72CE" strokeWidth="1.5" />
         <path d="M8 18h32" stroke="#8B72CE" strokeWidth="1.5" />
         <path d="M16 24h16M16 30h10" stroke="#8B72CE" strokeWidth="1.5" strokeLinecap="round" />
@@ -35,7 +35,7 @@ const INTRO_SLIDES = [
   },
   {
     icon: (
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <svg width="72" height="72" viewBox="0 0 48 48" fill="none">
         <path d="M24 8l4 8h8l-6 5 2 9-8-5-8 5 2-9-6-5h8l4-8z" stroke="#C4894A" strokeWidth="1.5" strokeLinejoin="round" />
         <circle cx="24" cy="35" r="8" stroke="#8B72CE" strokeWidth="1.5" strokeDasharray="3 3" />
         <path d="M20 35h8M24 31v8" stroke="#8B72CE" strokeWidth="1.2" strokeLinecap="round" />
@@ -159,16 +159,18 @@ export default function OnboardingPage() {
             style={{
               width: 72,
               height: 72,
-              borderRadius: 20,
+              borderRadius: "22%",
               background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               marginBottom: 32,
               boxShadow: "0 8px 24px rgba(139, 114, 206, 0.25)",
+              position: "relative",
             }}
           >
-            <span style={{ fontFamily: "var(--font-display)", fontSize: 34, color: "#fff", fontWeight: 700 }}>L</span>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: 34, color: "#fff", fontWeight: 700, marginTop: -2 }}>L</span>
+            <span style={{ position: "absolute", top: 11, right: 11, width: 8, height: 8, borderRadius: "50%", background: "rgba(255,255,255,0.5)" }} />
           </div>
 
           {/* 메인 카피 — 좌정렬, 대형 세리프 */}
@@ -182,6 +184,7 @@ export default function OnboardingPage() {
               letterSpacing: -1,
               lineHeight: 1.25,
               marginBottom: 16,
+              textWrap: "balance" as const,
             }}
           >
             당신만의
@@ -197,6 +200,7 @@ export default function OnboardingPage() {
               lineHeight: 1.7,
               maxWidth: 280,
               marginBottom: 8,
+              textWrap: "pretty" as const,
             }}
           >
             시간대별 일정 · 하루 리포트 · 회고를
@@ -261,7 +265,7 @@ export default function OnboardingPage() {
               color: "var(--color-muted)",
               cursor: "pointer",
               fontFamily: "var(--font-sans)",
-              padding: "8px 4px",
+              padding: "12px 16px",
             }}
           >
             건너뛰기
@@ -296,6 +300,7 @@ export default function OnboardingPage() {
               letterSpacing: -0.8,
               lineHeight: 1.2,
               marginBottom: 10,
+              textWrap: "balance" as const,
             }}
           >
             {slide.title}
@@ -323,6 +328,7 @@ export default function OnboardingPage() {
               lineHeight: 1.8,
               maxWidth: 280,
               whiteSpace: "pre-line",
+              textWrap: "pretty" as const,
             }}
           >
             {slide.description}
@@ -343,7 +349,8 @@ export default function OnboardingPage() {
                 flex: 1,
                 height: 56,
                 borderRadius: 9999,
-                border: "1px solid var(--color-border)",
+                border: "none",
+                boxShadow: "var(--shadow-button)",
                 background: "var(--color-card)",
                 color: "var(--color-body)",
                 fontSize: 15,
@@ -400,6 +407,7 @@ export default function OnboardingPage() {
             letterSpacing: -0.5,
             lineHeight: 1.25,
             marginBottom: 10,
+            textWrap: "balance" as const,
           }}
         >
           핵심 기능 선택
@@ -410,6 +418,7 @@ export default function OnboardingPage() {
             color: "var(--color-muted)",
             lineHeight: 1.6,
             marginBottom: 32,
+            textWrap: "pretty" as const,
           }}
         >
           자주 사용할 기능을 골라주세요.
@@ -433,7 +442,8 @@ export default function OnboardingPage() {
                   borderRadius: 20,
                   border: isSelected
                     ? "2px solid var(--color-accent)"
-                    : "1.5px solid var(--color-border)",
+                    : "2px solid transparent",
+                  boxShadow: isSelected ? "none" : "var(--shadow-card)",
                   background: isSelected ? "var(--color-accent-light)" : "var(--color-card)",
                   cursor: "pointer",
                   textAlign: "left",
@@ -446,7 +456,7 @@ export default function OnboardingPage() {
                   style={{
                     width: 48,
                     height: 48,
-                    borderRadius: 14,
+                    borderRadius: 8,
                     background: isSelected ? "var(--color-accent-light)" : "var(--color-surface-strong)",
                     display: "flex",
                     alignItems: "center",
@@ -479,7 +489,7 @@ export default function OnboardingPage() {
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
-                    transition: "all 0.2s ease",
+                    transition: "background 0.2s ease, border-color 0.2s ease",
                   }}
                 >
                   {isSelected && (

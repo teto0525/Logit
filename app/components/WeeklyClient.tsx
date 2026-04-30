@@ -78,6 +78,16 @@ const PRIORITY_LABELS: Record<Task["priority"], string> = {
   low: "낮음",
 };
 
+const DAY_COLORS = [
+  "#EDE8F8", // 월 — 라벤더
+  "#DBEAFE", // 화 — 블루
+  "#D1FAE5", // 수 — 그린
+  "#FEF3C7", // 목 — 앰버
+  "#FCE7F3", // 금 — 핑크
+  "#F3E8FF", // 토 — 퍼플
+  "#FFF7ED", // 일 — 오렌지
+];
+
 // ─── 메인 페이지 ─────────────────────────────────────────
 
 export default function WeeklyPage() {
@@ -184,7 +194,7 @@ export default function WeeklyPage() {
             background: "var(--color-card)",
             borderRadius: 24,
             padding: "24px",
-            border: "1px solid var(--color-border)",
+            boxShadow: "var(--shadow-card)",
           }}
         >
           <h2
@@ -194,6 +204,7 @@ export default function WeeklyPage() {
               fontWeight: 700,
               color: "var(--color-ink)",
               margin: "0 0 12px 0",
+              textWrap: "balance" as const,
             }}
           >
             주간 회고
@@ -269,17 +280,21 @@ function DayCard({
         borderRadius: 24,
         padding: "24px",
         marginBottom: 12,
-        border: "1px solid var(--color-border)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
-      {/* 날짜 라벨 */}
+      {/* 날짜 헤더 스트립 */}
       <div
         style={{
+          margin: "-24px -24px 12px -24px",
+          borderRadius: "24px 24px 0 0",
+          padding: "10px 24px 8px",
+          background: DAY_COLORS[dayIndex % DAY_COLORS.length],
           fontSize: 15,
           fontWeight: 700,
           color: "var(--color-ink)",
-          marginBottom: 10,
           letterSpacing: "-0.3px",
+          fontVariantNumeric: "tabular-nums",
         }}
       >
         {formatDayLabel(day.date, dayIndex)}
@@ -326,7 +341,7 @@ function DayCard({
                   cursor: "pointer",
                   padding: 0,
                   opacity: newPriority === p ? 1 : 0.45,
-                  transition: "all 0.2s ease",
+                  transition: "background 0.2s ease, color 0.2s ease",
                 }}
               />
             ))}
@@ -365,7 +380,7 @@ function DayCard({
                 background: "var(--color-primary)",
                 color: "#ffffff",
                 cursor: "pointer",
-                transition: "all 0.2s ease",
+                transition: "background 0.2s ease, color 0.2s ease",
               }}
             >
               추가
@@ -385,7 +400,7 @@ function DayCard({
                 background: "var(--color-background)",
                 color: "var(--color-muted)",
                 cursor: "pointer",
-                transition: "all 0.2s ease",
+                transition: "background 0.2s ease, color 0.2s ease",
               }}
             >
               취소
@@ -406,7 +421,7 @@ function DayCard({
             border: "none",
             cursor: "pointer",
             padding: "2px 0",
-            transition: "all 0.2s ease",
+            transition: "background 0.2s ease, color 0.2s ease",
           }}
         >
           <span style={{ fontSize: 16, lineHeight: 1 }}>+</span>
@@ -446,7 +461,7 @@ function TaskRow({
           flexShrink: 0,
           width: 20,
           height: 20,
-          borderRadius: 6,
+          borderRadius: "50%",
           border: task.done ? "1.5px solid var(--color-primary)" : "1.5px solid var(--color-muted-soft, #B0B8C1)",
           background: task.done ? "var(--color-primary)" : "transparent",
           cursor: "pointer",
@@ -454,7 +469,7 @@ function TaskRow({
           alignItems: "center",
           justifyContent: "center",
           padding: 0,
-          transition: "all 0.2s ease",
+          transition: "background 0.2s ease, color 0.2s ease",
         }}
       >
         {task.done && (
@@ -516,10 +531,12 @@ function TaskRow({
           lineHeight: 1,
           padding: 0,
           opacity: 1,
-          transition: "all 0.2s ease",
+          transition: "background 0.2s ease, color 0.2s ease",
         }}
       >
-        ×
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
       </button>
     </div>
   );
