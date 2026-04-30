@@ -135,23 +135,23 @@ export default function MyPage() {
   return (
     <div style={{ paddingBottom: 48 }}>
       {/* Header */}
-      <header style={{ padding: "20px 20px 16px", background: "var(--color-card)" }}>
-        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, margin: 0, color: "var(--color-ink)" }}>마이</h1>
-        <p style={{ fontSize: 14, color: "var(--color-muted)", margin: "4px 0 0" }}>{year} {halfLabel}</p>
+      <header style={{ padding: "24px 24px 20px", background: "var(--color-background)" }}>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 36, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>마이</h1>
+        <p style={{ fontSize: 14, color: "var(--color-accent-text)", fontWeight: 500, margin: "4px 0 0" }}>{year} {halfLabel}</p>
       </header>
 
       <div style={{ padding: "0 20px", marginTop: 16 }}>
         {/* ─── 내 정보 & 탈퇴 ─────────────────────────── */}
         {auth && (
           <div style={{
-            background: "var(--color-card)", borderRadius: 20, padding: 20,
-            boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+            background: "var(--color-card)", borderRadius: 24, padding: 24,
+            border: "1px solid var(--color-border)", marginBottom: 16,
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
-              {/* 프로필 아바타 */}
+              {/* 프로필 아바타 — 원형 라벤더 */}
               <div style={{
-                width: 48, height: 48, borderRadius: 14,
-                background: "var(--color-primary)", color: "var(--color-on-primary)",
+                width: 48, height: 48, borderRadius: 9999,
+                background: "var(--color-accent)", color: "#FFFFFF",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: 20, fontWeight: 700, flexShrink: 0,
               }}>
@@ -174,7 +174,7 @@ export default function MyPage() {
               style={{
                 width: "100%", padding: "12px 0",
                 background: "transparent", border: "1px solid var(--color-border)",
-                borderRadius: 12, fontSize: 14, fontWeight: 500,
+                borderRadius: 9999, fontSize: 14, fontWeight: 500,
                 color: "var(--color-error)", cursor: "pointer",
               }}
             >
@@ -185,11 +185,11 @@ export default function MyPage() {
 
         {/* ─── Radar Chart Card ─────────────────────────── */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 24,
+          border: "1px solid var(--color-border)", marginBottom: 16,
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <h2 style={{ fontSize: 17, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>나의 가치</h2>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>나의 가치</h2>
             <button
               onClick={() => setShowValues(!showValues)}
               style={{
@@ -217,7 +217,7 @@ export default function MyPage() {
                     <input
                       type="range" min={1} max={5} value={rating.score}
                       onChange={(e) => updateScore(rating.category, Number(e.target.value))}
-                      style={{ flex: 1, accentColor: "var(--color-primary)" }}
+                      style={{ flex: 1, accentColor: "var(--color-accent)" }}
                     />
                     <span style={{ fontSize: 14, fontWeight: 700, width: 20, textAlign: "center", color: "var(--color-primary)" }}>{rating.score}</span>
                   </div>
@@ -229,10 +229,10 @@ export default function MyPage() {
 
         {/* ─── Objectives ──────────────────────────────── */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 24,
+          border: "1px solid var(--color-border)", marginBottom: 16,
         }}>
-          <h2 style={{ fontSize: 17, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>반기 목표</h2>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>반기 목표</h2>
 
           {valueData.objectives.map((obj) => (
             <div key={obj.id} style={{
@@ -271,7 +271,7 @@ export default function MyPage() {
                 padding: "12px 16px", fontSize: 14, outline: "none", color: "var(--color-ink)",
               }} />
             <button onClick={addObjective} style={{
-              background: "var(--color-primary)", color: "#fff", border: "none", borderRadius: 12,
+              background: "var(--color-primary)", color: "#fff", border: "none", borderRadius: 9999,
               padding: "0 20px", fontSize: 14, fontWeight: 700, cursor: "pointer",
             }}>추가</button>
           </div>
@@ -279,11 +279,11 @@ export default function MyPage() {
 
         {/* ─── Gantt Mini ──────────────────────────────── */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 24,
+          border: "1px solid var(--color-border)", marginBottom: 16,
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <h2 style={{ fontSize: 17, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>반기 프로젝트</h2>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>반기 프로젝트</h2>
             <button onClick={() => setShowGantt(!showGantt)} style={{
               fontSize: 13, fontWeight: 600, color: "var(--color-primary)",
               background: "transparent", border: "none", cursor: "pointer",
@@ -360,11 +360,11 @@ export default function MyPage() {
               </div>
               <div style={{ display: "flex", gap: 8 }}>
                 <button onClick={addProject} style={{
-                  background: "var(--color-primary)", color: "#fff", border: "none", borderRadius: 12,
+                  background: "var(--color-primary)", color: "#fff", border: "none", borderRadius: 9999,
                   padding: "10px 20px", fontSize: 14, fontWeight: 700, cursor: "pointer",
                 }}>추가</button>
                 <button onClick={() => setAddingProject(false)} style={{
-                  background: "var(--color-background)", border: "none", borderRadius: 12,
+                  background: "var(--color-background)", border: "none", borderRadius: 9999,
                   padding: "10px 20px", fontSize: 14, fontWeight: 600, color: "var(--color-muted)", cursor: "pointer",
                 }}>취소</button>
               </div>
@@ -379,10 +379,10 @@ export default function MyPage() {
 
         {/* ─── Settings ────────────────────────────────── */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 24,
+          border: "1px solid var(--color-border)", marginBottom: 16,
         }}>
-          <h2 style={{ fontSize: 17, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>설정</h2>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: "0 0 16px", color: "var(--color-ink)" }}>설정</h2>
 
           <SettingRow label="데이터 내보내기 (JSON)" onClick={() => {
             const data = localStorage.getItem("bullet_journal_v1");
@@ -476,9 +476,9 @@ function RadarChart({ ratings }: { ratings: ValueRating[] }) {
           </g>
         );
       })}
-      <path d={dataPath} fill="var(--color-primary)" fillOpacity={0.15} stroke="var(--color-primary)" strokeWidth={2} />
+      <path d={dataPath} fill="var(--color-accent)" fillOpacity={0.15} stroke="var(--color-accent)" strokeWidth={2} />
       {dataPoints.map((p, i) => (
-        <circle key={i} cx={p[0]} cy={p[1]} r={4} fill="var(--color-primary)" />
+        <circle key={i} cx={p[0]} cy={p[1]} r={4} fill="var(--color-accent)" />
       ))}
     </svg>
   );

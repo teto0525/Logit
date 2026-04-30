@@ -219,8 +219,8 @@ function WeeklySection({ weekId, onPrev, onNext }: { weekId: string; onPrev: () 
       {/* Weekly reflection (collapsible) */}
       <div style={{ padding: "4px 16px 0" }}>
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)",
+          background: "var(--color-card)", borderRadius: 24, padding: 24,
+          border: "1px solid var(--color-border)",
         }}>
           <button
             onClick={() => setReflectionOpen(!reflectionOpen)}
@@ -229,7 +229,7 @@ function WeeklySection({ weekId, onPrev, onNext }: { weekId: string; onPrev: () 
               width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: 0,
             }}
           >
-            <h2 style={{ fontSize: 17, fontWeight: 700, color: "var(--color-ink)", margin: 0 }}>주간 회고</h2>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, color: "var(--color-ink)", margin: 0 }}>주간 회고</h2>
             <span style={{
               fontSize: 18, color: "var(--color-muted)",
               transform: reflectionOpen ? "rotate(180deg)" : "rotate(0deg)",
@@ -356,8 +356,8 @@ function MonthlySection({ yearMonth, onPrev, onNext }: { yearMonth: string; onPr
 
         {/* Let Go (collapsible) */}
         <div style={{
-          background: "var(--color-card)", borderRadius: 20, padding: 20,
-          boxShadow: "0 2px 12px rgba(28,25,23,0.06)", marginBottom: 16,
+          background: "var(--color-card)", borderRadius: 24, padding: 24,
+          border: "1px solid var(--color-border)", marginBottom: 16,
         }}>
           <button
             onClick={() => setLetGoOpen(!letGoOpen)}
@@ -366,7 +366,7 @@ function MonthlySection({ yearMonth, onPrev, onNext }: { yearMonth: string; onPr
               width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: 0,
             }}
           >
-            <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>덜어낼 것</h2>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>덜어낼 것</h2>
             <span style={{
               fontSize: 18, color: "var(--color-muted)",
               transform: letGoOpen ? "rotate(180deg)" : "rotate(0deg)",
@@ -426,8 +426,8 @@ function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
 
   return (
     <div style={{
-      background: "var(--color-card)", borderRadius: 20, padding: 20,
-      marginBottom: 12, boxShadow: "0 2px 12px rgba(28,25,23,0.06)",
+      background: "var(--color-card)", borderRadius: 24, padding: 24,
+      marginBottom: 12, border: "1px solid var(--color-border)",
     }}>
       <div style={{ fontSize: 15, fontWeight: 700, color: "var(--color-ink)", marginBottom: 10 }}>{label}</div>
 
@@ -477,7 +477,7 @@ function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
               style={{ flex: 1, fontSize: 14, padding: "10px 14px", borderRadius: 12, border: "none", background: "var(--color-background)", color: "var(--color-body)" }}
             />
             <button onClick={() => { if (newTitle.trim()) { onAddTask(newTitle.trim(), newPriority); setNewTitle(""); setIsAdding(false); } }}
-              style={{ fontSize: 14, fontWeight: 700, padding: "10px 16px", borderRadius: 12, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer" }}>추가</button>
+              style={{ fontSize: 14, fontWeight: 700, padding: "10px 16px", borderRadius: 9999, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer" }}>추가</button>
           </div>
         </div>
       ) : (
@@ -505,7 +505,7 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
 
   return (
     <div style={{ padding: "8px 20px 20px" }}>
-      <div style={{ background: "var(--color-card)", borderRadius: 20, padding: 20, boxShadow: "0 2px 12px rgba(28,25,23,0.06)" }}>
+      <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 24, border: "1px solid var(--color-border)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4, marginBottom: 6 }}>
           {DOW.map((d, i) => (
             <div key={d} style={{ textAlign: "center", fontSize: 12, fontWeight: 700, color: i === 0 ? "#EF4444" : i === 6 ? "#3B82F6" : "#9CA3AF", padding: "2px 0" }}>{d}</div>
@@ -542,11 +542,11 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
 
 function SectionCard({ title, onAdd, children }: { title: string; onAdd: () => void; children: React.ReactNode }) {
   return (
-    <div style={{ background: "var(--color-card)", borderRadius: 20, padding: 20, marginBottom: 16, boxShadow: "0 2px 12px rgba(28,25,23,0.06)" }}>
+    <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 24, marginBottom: 16, border: "1px solid var(--color-border)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>{title}</h2>
+        <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>{title}</h2>
         <button onClick={onAdd} style={{
-          width: 36, height: 36, borderRadius: 12, border: "none", background: "var(--color-primary)",
+          width: 36, height: 36, borderRadius: 9999, border: "none", background: "var(--color-primary)",
           color: "#fff", fontSize: 20, lineHeight: 1, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
         }}>+</button>
       </div>
@@ -606,9 +606,9 @@ function AddApptForm({ yearMonth, onAdd, onCancel }: {
         </div>
       </div>
       <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-        <button onClick={onCancel} style={{ fontSize: 15, fontWeight: 600, padding: "10px 20px", borderRadius: 12, border: "none", background: "var(--color-background)", color: "var(--color-muted)", cursor: "pointer" }}>취소</button>
+        <button onClick={onCancel} style={{ fontSize: 15, fontWeight: 600, padding: "10px 20px", borderRadius: 9999, border: "none", background: "var(--color-background)", color: "var(--color-muted)", cursor: "pointer" }}>취소</button>
         <button onClick={() => { if (title.trim()) onAdd({ date, title: title.trim(), type }); }}
-          style={{ fontSize: 15, fontWeight: 700, padding: "10px 20px", borderRadius: 12, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer" }}>추가</button>
+          style={{ fontSize: 15, fontWeight: 700, padding: "10px 20px", borderRadius: 9999, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer" }}>추가</button>
       </div>
     </div>
   );

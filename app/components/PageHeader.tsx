@@ -25,12 +25,12 @@ export function PageHeader({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "20px 20px 16px",
-        background: "var(--color-card)",
+        padding: "24px 24px 20px",
+        background: "var(--color-background)",
         borderBottom: "none",
       }}
     >
-      <div style={{ width: 44, textAlign: "left" }}>
+      <div style={{ width: 48, textAlign: "left" }}>
         {prevHref && (
           <Link
             href={prevHref}
@@ -39,13 +39,14 @@ export function PageHeader({
               textDecoration: "none",
               fontSize: 18,
               fontWeight: 500,
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 12,
-              background: "var(--color-surface-strong)",
+              borderRadius: 9999,
+              background: "transparent",
+              border: "1px solid var(--color-border)",
               transition: "background 0.2s ease",
             }}
           >
@@ -57,10 +58,10 @@ export function PageHeader({
         <h1
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: 700,
             margin: 0,
-            letterSpacing: "-0.3px",
+            letterSpacing: "-0.5px",
             color: "var(--color-ink)",
           }}
         >
@@ -71,7 +72,7 @@ export function PageHeader({
             style={{
               fontSize: 13,
               fontWeight: 500,
-              color: "var(--color-muted)",
+              color: "var(--color-accent-text)",
               margin: "4px 0 0",
             }}
           >
@@ -79,7 +80,7 @@ export function PageHeader({
           </p>
         )}
       </div>
-      <div style={{ width: 44, textAlign: "right" }}>
+      <div style={{ width: 48, textAlign: "right" }}>
         {nextHref && (
           <Link
             href={nextHref}
@@ -88,13 +89,14 @@ export function PageHeader({
               textDecoration: "none",
               fontSize: 18,
               fontWeight: 500,
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 12,
-              background: "var(--color-surface-strong)",
+              borderRadius: 9999,
+              background: "transparent",
+              border: "1px solid var(--color-border)",
               transition: "background 0.2s ease",
             }}
           >

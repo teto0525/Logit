@@ -49,7 +49,7 @@ export default function AuthPage() {
         display: "flex",
         flexDirection: "column",
         minHeight: "100%",
-        padding: "0 24px",
+        padding: "0 32px",
         background: "var(--color-background)",
       }}
     >
@@ -60,27 +60,27 @@ export default function AuthPage() {
           style={{
             width: 72,
             height: 72,
-            borderRadius: 18,
-            background: "linear-gradient(135deg, #111111 0%, #2A2A2A 100%)",
+            borderRadius: 20,
+            background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: 20,
-            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.12)",
+            marginBottom: 24,
+            boxShadow: "0 8px 24px rgba(139, 114, 206, 0.25)",
           }}
         >
-          <span style={{ fontFamily: "var(--font-display)", fontSize: 32, color: "#fff", fontWeight: 600 }}>L</span>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: 32, color: "#fff", fontWeight: 700 }}>L</span>
         </div>
 
         {/* 앱 이름 */}
         <h1
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: 36,
-            fontWeight: 600,
+            fontSize: 40,
+            fontWeight: 700,
             color: "var(--color-ink)",
-            letterSpacing: -0.5,
-            marginBottom: 8,
+            letterSpacing: -1,
+            marginBottom: 10,
           }}
         >
           Logit
@@ -89,11 +89,11 @@ export default function AuthPage() {
         {/* 서브 텍스트 */}
         <p
           style={{
-            fontSize: 15,
+            fontSize: 16,
             color: "var(--color-muted)",
             textAlign: "center",
-            lineHeight: 1.6,
-            maxWidth: 240,
+            lineHeight: 1.7,
+            maxWidth: 280,
           }}
         >
           {isReturning
@@ -103,14 +103,15 @@ export default function AuthPage() {
       </div>
 
       {/* 소셜 로그인 버튼 영역 */}
-      <div style={{ paddingBottom: 48, display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ paddingBottom: 56, display: "flex", flexDirection: "column", gap: 14 }}>
         {/* 안내 텍스트 */}
         <p
           style={{
             fontSize: 13,
-            color: "var(--color-muted)",
+            color: "var(--color-accent-text)",
             textAlign: "center",
             marginBottom: 4,
+            fontWeight: 600,
           }}
         >
           {isReturning ? "로그인" : "가입하기"}
@@ -125,8 +126,8 @@ export default function AuthPage() {
             justifyContent: "center",
             gap: 10,
             width: "100%",
-            height: 52,
-            borderRadius: 12,
+            height: 56,
+            borderRadius: 9999,
             border: "none",
             background: "#FEE500",
             color: "#191919",
@@ -151,8 +152,8 @@ export default function AuthPage() {
             justifyContent: "center",
             gap: 10,
             width: "100%",
-            height: 52,
-            borderRadius: 12,
+            height: 56,
+            borderRadius: 9999,
             border: "1px solid var(--color-border)",
             background: "#FFFFFF",
             color: "var(--color-ink)",
@@ -180,8 +181,8 @@ export default function AuthPage() {
             justifyContent: "center",
             gap: 10,
             width: "100%",
-            height: 52,
-            borderRadius: 12,
+            height: 56,
+            borderRadius: 9999,
             border: "none",
             background: "#03C75A",
             color: "#FFFFFF",

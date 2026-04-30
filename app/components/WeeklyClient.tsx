@@ -182,14 +182,15 @@ export default function WeeklyPage() {
         <div
           style={{
             background: "var(--color-card)",
-            borderRadius: 20,
-            padding: "20px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+            borderRadius: 24,
+            padding: "24px",
+            border: "1px solid var(--color-border)",
           }}
         >
           <h2
             style={{
-              fontSize: 17,
+              fontFamily: "var(--font-display)",
+              fontSize: 18,
               fontWeight: 700,
               color: "var(--color-ink)",
               margin: "0 0 12px 0",
@@ -265,10 +266,10 @@ function DayCard({
     <div
       style={{
         background: "var(--color-card)",
-        borderRadius: 20,
-        padding: "20px",
+        borderRadius: 24,
+        padding: "24px",
         marginBottom: 12,
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        border: "1px solid var(--color-border)",
       }}
     >
       {/* 날짜 라벨 */}
@@ -359,7 +360,7 @@ function DayCard({
                 fontSize: 14,
                 fontWeight: 700,
                 padding: "10px 16px",
-                borderRadius: 12,
+                borderRadius: 9999,
                 border: "none",
                 background: "var(--color-primary)",
                 color: "#ffffff",
@@ -379,7 +380,7 @@ function DayCard({
                 fontSize: 14,
                 fontWeight: 600,
                 padding: "10px 14px",
-                borderRadius: 12,
+                borderRadius: 9999,
                 border: "none",
                 background: "var(--color-background)",
                 color: "var(--color-muted)",

@@ -266,9 +266,9 @@ function CalendarGrid({
       <div
         style={{
           background: "var(--color-card, #FFFFFF)",
-          borderRadius: 20,
-          padding: 20,
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          borderRadius: 24,
+          padding: 24,
+          border: "1px solid var(--color-border)",
         }}
       >
         {/* 요일 헤더 */}
@@ -397,10 +397,10 @@ function Section({
     <div
       style={{
         background: "var(--color-card, #FFFFFF)",
-        borderRadius: 20,
-        padding: 20,
+        borderRadius: 24,
+        padding: 24,
         marginBottom: 16,
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        border: "1px solid var(--color-border)",
       }}
     >
       <div
@@ -413,7 +413,8 @@ function Section({
       >
         <h2
           style={{
-            fontSize: 16,
+            fontFamily: "var(--font-display)",
+            fontSize: 18,
             fontWeight: 700,
             margin: 0,
             color: "var(--color-ink, var(--color-foreground))",
@@ -426,7 +427,7 @@ function Section({
           style={{
             width: 36,
             height: 36,
-            borderRadius: 12,
+            borderRadius: 9999,
             border: "none",
             background: "var(--color-primary, #3B82F6)",
             color: "#fff",
@@ -735,7 +736,7 @@ function AddAppointmentForm({
             fontSize: 15,
             fontWeight: 600,
             padding: "10px 20px",
-            borderRadius: 12,
+            borderRadius: 9999,
             border: "none",
             background: "var(--color-background, #F2F4F6)",
             color: "var(--color-muted)",
@@ -750,7 +751,7 @@ function AddAppointmentForm({
             fontSize: 15,
             fontWeight: 700,
             padding: "10px 20px",
-            borderRadius: 12,
+            borderRadius: 9999,
             border: "none",
             background: "var(--color-primary, #3B82F6)",
             color: "#fff",

@@ -92,9 +92,9 @@ export default function YearlyPage() {
       <div
         style={{
           background: "var(--color-card)",
-          borderRadius: 20,
-          padding: 20,
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          borderRadius: 24,
+          padding: 24,
+          border: "1px solid var(--color-border)",
           margin: "0 20px 16px",
           overflowX: "auto",
         }}
@@ -240,9 +240,9 @@ export default function YearlyPage() {
           <div
             style={{
               background: "var(--color-card)",
-              borderRadius: 20,
-              padding: 20,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+              borderRadius: 24,
+              padding: 24,
+              border: "1px solid var(--color-border)",
             }}
           >
             <input
@@ -253,8 +253,8 @@ export default function YearlyPage() {
               style={{
                 background: "var(--color-background)",
                 border: "none",
-                borderRadius: 12,
-                padding: "10px 14px",
+                borderRadius: 14,
+                padding: "12px 16px",
                 fontSize: 14,
                 fontWeight: 400,
                 marginBottom: 10,
@@ -270,7 +270,7 @@ export default function YearlyPage() {
                 style={{
                   background: "var(--color-background)",
                   border: "none",
-                  borderRadius: 12,
+                  borderRadius: 14,
                   padding: "8px 12px",
                   fontSize: 13,
                   fontWeight: 400,
@@ -287,7 +287,7 @@ export default function YearlyPage() {
                 style={{
                   background: "var(--color-background)",
                   border: "none",
-                  borderRadius: 12,
+                  borderRadius: 14,
                   padding: "8px 12px",
                   fontSize: 13,
                   fontWeight: 400,
@@ -305,7 +305,7 @@ export default function YearlyPage() {
                   background: "var(--color-primary)",
                   color: "#ffffff",
                   border: "none",
-                  borderRadius: 12,
+                  borderRadius: 9999,
                   padding: "10px 20px",
                   fontSize: 15,
                   fontWeight: 700,
@@ -319,7 +319,7 @@ export default function YearlyPage() {
                 style={{
                   background: "var(--color-background)",
                   border: "none",
-                  borderRadius: 12,
+                  borderRadius: 9999,
                   padding: "10px 20px",
                   fontSize: 15,
                   fontWeight: 600,
@@ -339,7 +339,7 @@ export default function YearlyPage() {
               padding: "16px 0",
               background: "transparent",
               border: "2px dashed var(--color-border)",
-              borderRadius: 16,
+              borderRadius: 9999,
               fontSize: 15,
               fontWeight: 600,
               color: "var(--color-muted)",
@@ -356,9 +356,9 @@ export default function YearlyPage() {
         <div
           style={{
             background: "var(--color-card)",
-            borderRadius: 20,
-            padding: 20,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+            borderRadius: 24,
+            padding: 24,
+            border: "1px solid var(--color-border)",
             margin: "16px 20px 0",
           }}
         >

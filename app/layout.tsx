@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, DM_Sans, Noto_Sans_KR } from "next/font/google";
+import { Fraunces, DM_Sans, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { BottomNav } from "./components/BottomNav";
 import { SwRegister } from "./components/SwRegister";
 
-const spaceGrotesk = Space_Grotesk({
+const fraunces = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700", "900"],
+  style: ["normal", "italic"],
 });
 
 const dmSans = DM_Sans({
@@ -38,7 +39,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#FAF8F4",
+  themeColor: "#F7F5F0",
   viewportFit: "cover",
 };
 
@@ -48,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${spaceGrotesk.variable} ${dmSans.variable} ${notoSansKR.variable} antialiased`}>
+    <html lang="ko" className={`${fraunces.variable} ${dmSans.variable} ${notoSansKR.variable} antialiased`}>
       <head>
         <link rel="apple-touch-icon" href="/icon-192.svg" />
       </head>

@@ -262,11 +262,11 @@ export default function DailyPage() {
           {getGreeting()}
         </p>
 
-        {/* Streak Card */}
+        {/* Streak Card — lavender gradient */}
         <div
           style={{
-            background: "linear-gradient(135deg, #111111 0%, #2A2A2A 50%, #3D3D3D 100%)",
-            borderRadius: 20,
+            background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
+            borderRadius: 24,
             padding: "24px",
             color: "#fff",
           }}
@@ -325,14 +325,14 @@ export default function DailyPage() {
         <div
           style={{
             background: "var(--color-card)",
-            borderRadius: 20,
-            padding: "20px",
-            boxShadow: "0 2px 12px rgba(28,25,23,0.06)",
+            borderRadius: 24,
+            padding: "24px",
+            border: "1px solid var(--color-border)",
           }}
         >
           {/* Section header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h2 style={{ fontSize: 17, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
               오늘의 집중
             </h2>
             <span style={{
@@ -366,13 +366,13 @@ export default function DailyPage() {
           <div
             style={{
               background: "var(--color-card)",
-              borderRadius: 20,
-              padding: "20px",
-              boxShadow: "0 2px 12px rgba(28,25,23,0.06)",
+              borderRadius: 24,
+              padding: "24px",
+              border: "1px solid var(--color-border)",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-              <h2 style={{ fontSize: 17, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
+              <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
                 오늘의 습관
               </h2>
               <span style={{
@@ -422,9 +422,9 @@ export default function DailyPage() {
         <div
           style={{
             background: "var(--color-card)",
-            borderRadius: 20,
-            padding: "20px",
-            boxShadow: "0 2px 12px rgba(28,25,23,0.06)",
+            borderRadius: 24,
+            padding: "24px",
+            border: "1px solid var(--color-border)",
           }}
         >
           <button
@@ -440,7 +440,7 @@ export default function DailyPage() {
               padding: 0,
             }}
           >
-            <h2 style={{ fontSize: 17, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)" }}>
               저녁 리뷰
             </h2>
             <span style={{
@@ -498,10 +498,10 @@ export default function DailyPage() {
                         style={{
                           width: 44,
                           height: 44,
-                          borderRadius: 12,
+                          borderRadius: 9999,
                           border: "none",
                           background: isSelected
-                            ? "var(--color-primary)"
+                            ? "var(--color-accent)"
                             : "var(--color-background)",
                           color: isSelected ? "#FFFFFF" : "var(--color-muted)",
                           fontSize: 14,

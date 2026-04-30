@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* ─── Light & Warm — Notebook-inspired tokens ─── */
-  --color-background: #FAF8F4;
+  /* ─── Tiimo-inspired — Lavender & Serif tokens ─── */
+  --color-background: #F7F5F0;
   --color-foreground: #1A1A1A;
   --color-card: #FFFFFF;
-  --color-surface: #FAF8F4;
+  --color-surface: #F7F5F0;
   --color-surface-card: #FFFFFF;
   --color-surface-strong: #F0EDE8;
-  --color-border: #E5E2DC;
+  --color-border: #E8E5DF;
   --color-border-soft: #F0EDE8;
 
   /* Text hierarchy */
@@ -17,14 +17,16 @@
   --color-muted: #6B7280;
   --color-muted-soft: #9CA3AF;
 
-  /* Accent — warm black primary */
+  /* Primary — black CTA */
   --color-primary: #111111;
   --color-primary-active: #242424;
-  --color-primary-light: #F0EDE8;
+  --color-primary-light: #EDE8F8;
   --color-on-primary: #FFFFFF;
 
-  /* Semantic */
-  --color-accent: #111111;
+  /* Accent — lavender */
+  --color-accent: #B4A0E5;
+  --color-accent-light: #EDE8F8;
+  --color-accent-text: #7B5EA7;
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
@@ -44,16 +46,16 @@
   --color-blue: #3B82F6;
   --color-coral: #EF4444;
 
-  /* Rounded scale */
+  /* Rounded scale — generous pill shapes */
   --radius-xs: 8px;
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-xl: 24px;
+  --radius-sm: 14px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 
   --font-sans: "DM Sans", var(--font-noto-sans-kr), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-display: "Space Grotesk", "DM Sans", sans-serif;
+  --font-display: "Fraunces", "DM Sans", serif;
 }
 
 body {
@@ -107,7 +109,7 @@ body {
 }
 
 .bottom-nav a.active {
-  color: var(--color-primary);
+  color: var(--color-accent-text);
 }
 
 .bottom-nav a.active::before {
@@ -118,7 +120,7 @@ body {
   transform: translateX(-50%);
   width: 20px;
   height: 2px;
-  background: var(--color-primary);
+  background: var(--color-accent);
   border-radius: 1px;
 }
 
@@ -148,13 +150,13 @@ textarea::placeholder {
   color: var(--color-muted-soft);
 }
 
-/* Focus ring */
+/* Focus ring — lavender accent */
 input[type="text"]:focus,
 textarea:focus,
 select:focus {
-  outline: 2px solid var(--color-border);
+  outline: 2px solid var(--color-accent);
   outline-offset: -1px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
 }
 
 /* Smooth transitions — Material Design curve */
