@@ -25,8 +25,8 @@ const INTRO_SLIDES = [
         <rect x="8" y="10" width="32" height="28" rx="4" stroke="#8B72CE" strokeWidth="1.5" />
         <path d="M8 18h32" stroke="#8B72CE" strokeWidth="1.5" />
         <path d="M16 24h16M16 30h10" stroke="#8B72CE" strokeWidth="1.5" strokeLinecap="round" />
-        <circle cx="36" cy="34" r="6" fill="#7C9E6E" fillOpacity="0.3" stroke="#7C9E6E" strokeWidth="1.5" />
-        <path d="M33.5 34l2 2 3-3.5" stroke="#7C9E6E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="36" cy="34" r="6" fill="#10B981" fillOpacity="0.3" stroke="#10B981" strokeWidth="1.5" />
+        <path d="M33.5 34l2 2 3-3.5" stroke="#10B981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     title: "하루 리포트",
@@ -36,7 +36,7 @@ const INTRO_SLIDES = [
   {
     icon: (
       <svg width="72" height="72" viewBox="0 0 48 48" fill="none">
-        <path d="M24 8l4 8h8l-6 5 2 9-8-5-8 5 2-9-6-5h8l4-8z" stroke="#C4894A" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M24 8l4 8h8l-6 5 2 9-8-5-8 5 2-9-6-5h8l4-8z" stroke="#F59E0B" strokeWidth="1.5" strokeLinejoin="round" />
         <circle cx="24" cy="35" r="8" stroke="#8B72CE" strokeWidth="1.5" strokeDasharray="3 3" />
         <path d="M20 35h8M24 31v8" stroke="#8B72CE" strokeWidth="1.2" strokeLinecap="round" />
       </svg>

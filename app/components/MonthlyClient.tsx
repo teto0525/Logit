@@ -324,7 +324,7 @@ function CalendarGrid({
               <div
                 key={day}
                 style={{
-                  background: "var(--color-background, #F2F4F6)",
+                  background: "var(--color-background, #F7F5F0)",
                   borderRadius: 12,
                   padding: "6px 4px 5px",
                   minHeight: 46,
@@ -430,7 +430,7 @@ function Section({
             height: 36,
             borderRadius: 9999,
             border: "none",
-            background: "var(--color-primary, #3B82F6)",
+            background: "var(--color-primary, #111111)",
             color: "#fff",
             fontSize: 20,
             lineHeight: 1,
@@ -492,7 +492,7 @@ function EditableRow({
           fontSize: 14,
           fontWeight: 400,
           padding: "10px 14px",
-          background: "var(--color-background, #F2F4F6)",
+          background: "var(--color-background, #F7F5F0)",
           border: "none",
           borderRadius: 12,
           color: "var(--color-foreground)",
@@ -547,7 +547,7 @@ function AppointmentRow({
         alignItems: "center",
         gap: 12,
         padding: "10px 0",
-        borderBottom: "1px solid var(--color-background, #F2F4F6)",
+        borderBottom: "1px solid var(--color-background, #F7F5F0)",
       }}
     >
       {/* 날짜 */}
@@ -644,7 +644,7 @@ function AddAppointmentForm({
   return (
     <div
       style={{
-        background: "var(--color-background, #F2F4F6)",
+        background: "var(--color-background, #F7F5F0)",
         borderRadius: 16,
         padding: 20,
         marginTop: 12,
@@ -723,7 +723,7 @@ function AddAppointmentForm({
                 padding: "6px 14px",
                 borderRadius: 9999,
                 border: type === t.key ? `1.5px solid ${t.color}` : "1.5px solid transparent",
-                background: type === t.key ? t.color + "20" : "var(--color-background, #F2F4F6)",
+                background: type === t.key ? t.color + "20" : "var(--color-background, #F7F5F0)",
                 color: type === t.key ? t.color : "var(--color-muted)",
                 cursor: "pointer",
               }}
@@ -744,7 +744,7 @@ function AddAppointmentForm({
             padding: "10px 20px",
             borderRadius: 9999,
             border: "none",
-            background: "var(--color-background, #F2F4F6)",
+            background: "var(--color-background, #F7F5F0)",
             color: "var(--color-muted)",
             cursor: "pointer",
           }}
@@ -759,7 +759,7 @@ function AddAppointmentForm({
             padding: "10px 20px",
             borderRadius: 9999,
             border: "none",
-            background: "var(--color-primary, #3B82F6)",
+            background: "var(--color-primary, #111111)",
             color: "#fff",
             cursor: "pointer",
           }}

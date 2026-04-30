@@ -638,7 +638,7 @@ function TimeBlockRow({
               width: 22,
               height: 22,
               borderRadius: "50%",
-              border: block.done ? "none" : "2px solid var(--color-muted-soft, #B8B0A6)",
+              border: block.done ? "none" : "2px solid var(--color-muted-soft, #9CA3AF)",
               background: block.done ? "var(--color-primary)" : "transparent",
               cursor: "pointer",
               display: "flex",

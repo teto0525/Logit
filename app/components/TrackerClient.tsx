@@ -308,7 +308,7 @@ function HabitRow({ habit, days, yearMonth, records, onToggle, onDelete, pct }: 
             <button onClick={() => onToggle(day)} style={{
               width: 24, height: 24, borderRadius: "50%", border: "none", background: "transparent",
               cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center",
-              padding: 0, fontSize: 16, color: done ? "var(--color-primary)" : "#B8B0A6",
+              padding: 0, fontSize: 16, color: done ? "var(--color-primary)" : "var(--color-muted-soft, #9CA3AF)",
             }}>
               {done ? (
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">

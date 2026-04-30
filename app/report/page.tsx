@@ -94,11 +94,11 @@ export default function ReportPage() {
     <div style={{ paddingBottom: 48 }}>
       {/* Header */}
       <header style={{ padding: "20px 20px 0", background: "linear-gradient(160deg, #C0D4F0 0%, #D8EAF8 60%, #EDE8F8 100%)" }}>
-        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 600, fontStyle: "italic", margin: "0 0 4px", color: "#1A3A5C" }}>리포트</h1>
-        <p style={{ fontSize: 13, color: "#4A6A8C", fontWeight: 500, margin: "0 0 16px" }}>나의 패턴을 분석해보세요</p>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 600, fontStyle: "italic", margin: "0 0 4px", color: "var(--color-ink, #111111)" }}>리포트</h1>
+        <p style={{ fontSize: 13, color: "var(--color-muted, #6B7280)", fontWeight: 500, margin: "0 0 16px" }}>나의 패턴을 분석해보세요</p>
 
         {/* Period Underline Tab */}
-        <div style={{ display: "flex", borderBottom: "1px solid rgba(26,58,92,0.15)" }}>
+        <div style={{ display: "flex", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
           {(["week", "month", "all"] as const).map((p) => (
             <button
               key={p}

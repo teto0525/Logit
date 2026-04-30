@@ -521,7 +521,7 @@ function HabitRow({
                 padding: 0,
                 fontSize: 16,
                 lineHeight: 1,
-                color: done ? "var(--color-primary)" : "#B0B8C1",
+                color: done ? "var(--color-primary)" : "var(--color-muted-soft, #9CA3AF)",
                 transition: "color 0.15s",
               }}
             >
