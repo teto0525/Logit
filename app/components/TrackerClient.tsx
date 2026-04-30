@@ -245,9 +245,9 @@ export default function TrackerPage() {
 // ─── Sub-components ──────────────────────────────────────
 
 const SUMMARY_GRADIENTS = [
-  "linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%)",  // 연속 — 앰버
-  "linear-gradient(135deg, #10B981 0%, #34D399 100%)",  // 달성률 — 그린
-  "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",  // 총달성 — 라벤더
+  "linear-gradient(135deg, #B4A0E5 0%, #8B72CE 100%)",  // 연속 — 라벤더 라이트
+  "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",  // 달성률 — 라벤더 딥
+  "linear-gradient(135deg, #6B52AE 0%, #543D8C 100%)",  // 총달성 — 라벤더 다크
 ];
 
 function SummaryCard({ label, value, gradientIndex }: { label: string; value: string; gradientIndex: number }) {

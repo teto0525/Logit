@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { PageHeader } from "@/app/components/PageHeader";
 import {
   getWeeklyPlan, saveWeeklyPlan,
@@ -23,7 +23,7 @@ const APPOINTMENT_TYPES: { key: Appointment["type"]; label: string; color: strin
 ];
 
 const PRIORITY_COLORS: Record<Task["priority"], string> = {
-  high: "#EF4444", mid: "#F59E0B", low: "#9CA3AF",
+  high: "#EF4444", mid: "#FBBF24", low: "#3B82F6",
 };
 
 function buildDefaultWeekly(weekId: string): WeeklyPlan {
@@ -502,6 +502,20 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
   const totalDays = daysInMonth(year, month);
   const startDow = firstDayOfMonth(year, month);
   const DOW = ["일", "월", "화", "수", "목", "금", "토"];
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  // Close popover on outside click
+  useEffect(() => {
+    if (!selectedDate) return;
+    function handleClick(e: MouseEvent) {
+      if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
+        setSelectedDate(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [selectedDate]);
 
   const apptByDate: Record<string, Appointment[]> = {};
   for (const a of appointments) {
@@ -512,12 +526,14 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
   const cells: (number | null)[] = [...Array(startDow).fill(null), ...Array.from({ length: totalDays }, (_, i) => i + 1)];
   while (cells.length % 7 !== 0) cells.push(null);
 
+  const selectedAppts = selectedDate ? (apptByDate[selectedDate] ?? []) : [];
+
   return (
-    <div style={{ padding: "8px 20px 20px" }}>
+    <div style={{ padding: "8px 20px 20px", position: "relative" }}>
       <div style={{ background: "var(--color-card)", borderRadius: 24, padding: 24, boxShadow: "var(--shadow-card)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4, marginBottom: 6 }}>
           {DOW.map((d, i) => (
-            <div key={d} style={{ textAlign: "center", fontSize: 12, fontWeight: 700, color: i === 0 ? "#EF4444" : i === 6 ? "#3B82F6" : "#9CA3AF", padding: "2px 0" }}>{d}</div>
+            <div key={d} style={{ textAlign: "center", fontSize: 12, fontWeight: 700, color: i === 0 ? "var(--color-accent-text, #7B5EA7)" : i === 6 ? "var(--color-accent, #B4A0E5)" : "#9CA3AF", padding: "2px 0" }}>{d}</div>
           ))}
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4 }}>
@@ -526,25 +542,90 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
             const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
             const dayAppts = apptByDate[dateStr] ?? [];
             const dow = (startDow + day - 1) % 7;
+            const hasAppts = dayAppts.length > 0;
+            const isSelected = selectedDate === dateStr;
             return (
-              <div key={day} style={{
-                background: "var(--color-background)", borderRadius: 12,
-                padding: "6px 4px 5px", minHeight: 46,
-                display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
-              }}>
-                <span style={{ fontSize: 13, fontWeight: 500, color: dow === 0 ? "#EF4444" : dow === 6 ? "#3B82F6" : "var(--color-ink)" }}>{day}</span>
-                {dayAppts.length > 0 && (
+              <button
+                key={day}
+                onClick={() => hasAppts ? setSelectedDate(isSelected ? null : dateStr) : setSelectedDate(null)}
+                style={{
+                  background: isSelected ? "var(--color-accent-light, #EDE8F8)" : "var(--color-background)",
+                  borderRadius: 12,
+                  padding: "6px 4px 5px", minHeight: 46,
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
+                  border: isSelected ? "1.5px solid var(--color-accent, #B4A0E5)" : "1.5px solid transparent",
+                  cursor: hasAppts ? "pointer" : "default",
+                  transition: "background 0.15s ease, border-color 0.15s ease",
+                }}
+              >
+                <span style={{ fontSize: 13, fontWeight: isSelected ? 700 : 500, color: dow === 0 ? "var(--color-accent-text, #7B5EA7)" : dow === 6 ? "var(--color-accent, #B4A0E5)" : "var(--color-ink)" }}>{day}</span>
+                {hasAppts && (
                   <div style={{ display: "flex", gap: 2 }}>
                     {dayAppts.slice(0, 3).map((a) => (
                       <span key={a.id} style={{ width: 6, height: 6, borderRadius: "50%", background: APPOINTMENT_TYPES.find((t) => t.key === a.type)?.color ?? "#9CA3AF" }} />
                     ))}
                   </div>
                 )}
-              </div>
+              </button>
             );
           })}
         </div>
       </div>
+
+      {/* Floating popover */}
+      {selectedDate && selectedAppts.length > 0 && (
+        <div
+          ref={popoverRef}
+          style={{
+            position: "absolute",
+            left: 20, right: 20,
+            marginTop: 8,
+            background: "var(--color-card, #FFFFFF)",
+            borderRadius: 18,
+            padding: "16px 20px",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06)",
+            zIndex: 10,
+          }}
+        >
+          {/* Popover header */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+            <span style={{ fontSize: 14, fontWeight: 700, color: "var(--color-ink)" }}>
+              {(() => {
+                const d = new Date(selectedDate + "T00:00:00");
+                const dow = ["일", "월", "화", "수", "목", "금", "토"][d.getDay()];
+                return `${d.getMonth() + 1}월 ${d.getDate()}일 (${dow})`;
+              })()}
+            </span>
+            <button
+              onClick={() => setSelectedDate(null)}
+              style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4, color: "var(--color-muted)", display: "flex", alignItems: "center" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </div>
+          {/* Appointment list */}
+          {selectedAppts.map((a) => {
+            const color = APPOINTMENT_TYPES.find((t) => t.key === a.type)?.color ?? "var(--color-muted)";
+            const label = APPOINTMENT_TYPES.find((t) => t.key === a.type)?.label ?? "";
+            return (
+              <div key={a.id} style={{
+                display: "flex", alignItems: "center", gap: 10, padding: "8px 0",
+                borderBottom: "1px solid var(--color-background)",
+              }}>
+                <span style={{
+                  width: 8, height: 8, borderRadius: "50%", background: color, flexShrink: 0,
+                }} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "var(--color-body)" }}>{a.title}</div>
+                  <div style={{ fontSize: 11, color: "var(--color-muted)", marginTop: 1 }}>{label}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

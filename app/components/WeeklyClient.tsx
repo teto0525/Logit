@@ -68,8 +68,8 @@ function getNextWeekId(weekId: string): string {
 
 const PRIORITY_COLORS: Record<Task["priority"], string> = {
   high: "#EF4444",
-  mid: "#F59E0B",
-  low: "#9CA3AF",
+  mid: "#FBBF24",
+  low: "#3B82F6",
 };
 
 const PRIORITY_LABELS: Record<Task["priority"], string> = {

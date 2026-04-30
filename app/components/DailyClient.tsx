@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
 import { PageHeader } from "@/app/components/PageHeader";
 import {
@@ -46,8 +46,10 @@ function createDefaultLog(date: string): DailyLog {
   };
 }
 
-function formatHour(h: number): string {
-  return `${String(h).padStart(2, "0")}`;
+function formatHour(h: number): { num: string; period: string } {
+  const period = h < 12 ? "AM" : "PM";
+  const display = h === 0 ? 12 : h > 12 ? h - 12 : h;
+  return { num: String(display), period };
 }
 
 function formatDateDisplay(dateStr: string): string {
@@ -67,26 +69,70 @@ function getGreeting(): string {
   return "오늘 하루 수고했어요";
 }
 
-function getTimeGradient(): string {
+function getTimeIcon(): React.ReactNode {
   const hour = new Date().getHours();
-  if (hour >= 6 && hour < 10) {
-    // 아침 — 일출: 아이보리 → 골드
-    return "linear-gradient(180deg, #EDE8DE 0%, #F2E0A8 100%)";
+  if (hour < 6) {
+    // 새벽 — 달+별
+    return (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B72CE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+        <path d="M17 4l.5 1.5L19 6l-1.5.5L17 8l-.5-1.5L15 6l1.5-.5L17 4z" fill="#B4A0E5" stroke="none"/>
+      </svg>
+    );
   }
-  if (hour >= 10 && hour < 14) {
-    // 점심 — 맑은 하늘: 블루 → 스카이블루
-    return "linear-gradient(180deg, #C0D4F0 0%, #D8EAF8 100%)";
+  if (hour < 12) {
+    // 아침 — 일출
+    return (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B72CE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 18a5 5 0 10-10 0"/>
+        <line x1="12" y1="9" x2="12" y2="2"/>
+        <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/>
+        <line x1="1" y1="18" x2="3" y2="18"/>
+        <line x1="21" y1="18" x2="23" y2="18"/>
+        <line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/>
+        <line x1="23" y1="22" x2="1" y2="22"/>
+        <polyline points="8 6 12 2 16 6"/>
+      </svg>
+    );
   }
-  if (hour >= 14 && hour < 17) {
-    // 낮 — 골든아워: 블러시핑크 → 피치
-    return "linear-gradient(180deg, #F0DCD4 0%, #F4DCC0 100%)";
+  if (hour < 17) {
+    // 오후 — 태양
+    return (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B72CE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    );
   }
-  if (hour >= 17 && hour < 21) {
-    // 저녁 — 석양: 더스티 라벤더 → 피치 오렌지
-    return "linear-gradient(180deg, #C8B8D4 0%, #E8C8A0 100%)";
+  if (hour < 21) {
+    // 저녁 — 일몰
+    return (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B72CE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 18a5 5 0 10-10 0"/>
+        <line x1="12" y1="9" x2="12" y2="2"/>
+        <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/>
+        <line x1="1" y1="18" x2="3" y2="18"/>
+        <line x1="21" y1="18" x2="23" y2="18"/>
+        <line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/>
+        <line x1="23" y1="22" x2="1" y2="22"/>
+        <polyline points="16 6 12 10 8 6"/>
+      </svg>
+    );
   }
-  // 새벽 (21시~6시) — 밤하늘: 쿨 슬레이트 → 세이지
-  return "linear-gradient(180deg, #C8D0D4 0%, #D8D8CC 100%)";
+  // 밤 — 달+별
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B72CE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+      <path d="M17 4l.5 1.5L19 6l-1.5.5L17 8l-.5-1.5L15 6l1.5-.5L17 4z" fill="#B4A0E5" stroke="none"/>
+    </svg>
+  );
 }
 
 function getStreakMessage(streak: number): string {
@@ -140,7 +186,20 @@ export default function DailyPage() {
         ...b,
         done: b.done ?? false,
       }));
-      setLog({ ...saved, timeBlocks: blocks });
+      // Backfill missing hours (e.g. 0-5 added after upgrade)
+      const existingHours = new Set(blocks.map((b) => b.hour));
+      const missing = HOURS.filter((h) => !existingHours.has(h)).map((hour) => ({
+        id: uid(),
+        hour,
+        plan: "",
+        actual: "",
+        category: "routine" as TimeCategory,
+        done: false,
+      }));
+      const allBlocks = [...blocks, ...missing].sort((a, b) => {
+        return HOURS.indexOf(a.hour) - HOURS.indexOf(b.hour);
+      });
+      setLog({ ...saved, timeBlocks: allBlocks });
     } else {
       setLog(createDefaultLog(date));
     }
@@ -279,7 +338,7 @@ export default function DailyPage() {
   });
 
   return (
-    <div style={{ paddingBottom: 40, background: getTimeGradient(), minHeight: "100%" }}>
+    <div style={{ paddingBottom: 40, background: "var(--color-background, #F7F5F0)", minHeight: "100%" }}>
       <PageHeader
         title={formatDateDisplay(date)}
         subtitle="Daily"
@@ -291,9 +350,12 @@ export default function DailyPage() {
       {/* 인사 + 스트릭 카드 */}
       <div style={{ padding: "0 20px", marginBottom: 16 }}>
         {/* Greeting */}
-        <p style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 400, fontStyle: "italic", color: "var(--color-ink)", margin: "0 0 12px", textWrap: "balance" as const }}>
-          {getGreeting()}
-        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 0 12px" }}>
+          <span style={{ flexShrink: 0, display: "inline-flex" }}>{getTimeIcon()}</span>
+          <p style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 400, fontStyle: "italic", color: "var(--color-ink)", margin: 0, textWrap: "balance" as const }}>
+            {getGreeting()}
+          </p>
+        </div>
 
         {/* Streak Card — lavender gradient */}
         <div
@@ -376,6 +438,19 @@ export default function DailyPage() {
             }}>
               {focusHours}h / 4h
             </span>
+          </div>
+
+          {/* Column headers */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "46px 1fr 32px 1fr",
+            gap: 4,
+            marginBottom: 6,
+          }}>
+            <div />
+            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" as const, color: "var(--color-accent-text, #7B5EA7)" }}>Plan</span>
+            <div />
+            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" as const, color: "var(--color-muted, #6B7280)" }}>Do</span>
           </div>
 
           {/* Timeblock rows */}
@@ -561,6 +636,60 @@ export default function DailyPage() {
   );
 }
 
+// ─── Auto-shrink Cell ───────────────────────────────────────
+
+function AutoShrinkCell({ value, onChange, placeholder }: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+}) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // Reset height to measure scrollHeight
+    el.style.height = "auto";
+    // Clamp to 2 lines max (2 lines × lineHeight 1.4 × fontSize)
+    const fontSize = parseFloat(getComputedStyle(el).fontSize);
+    const maxHeight = Math.ceil(fontSize * 1.4 * 2) + 2;
+    el.style.height = Math.min(el.scrollHeight, maxHeight) + "px";
+
+    // Auto-shrink font if content overflows at 2 lines
+    if (el.scrollHeight > maxHeight) {
+      const shrunk = Math.max(9, Math.floor(fontSize - 1));
+      el.style.fontSize = shrunk + "px";
+      el.style.height = "auto";
+      const newMax = Math.ceil(shrunk * 1.4 * 2) + 2;
+      el.style.height = Math.min(el.scrollHeight, newMax) + "px";
+    }
+  }, [value]);
+
+  return (
+    <textarea
+      ref={ref}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      rows={1}
+      style={{
+        fontSize: 12,
+        fontWeight: 400,
+        padding: 0,
+        width: "100%",
+        border: "none",
+        background: "transparent",
+        resize: "none",
+        outline: "none",
+        lineHeight: 1.4,
+        fontFamily: "inherit",
+        color: "inherit",
+        overflow: "hidden",
+      }}
+    />
+  );
+}
+
 // ─── TimeBlock Row ──────────────────────────────────────────
 
 function TimeBlockRow({
@@ -612,20 +741,21 @@ function TimeBlockRow({
           }}
         >
           <span style={{ display: "inline-flex" }}>{CATEGORY_ICONS[block.category]}</span>
-          <span>{formatHour(block.hour)}</span>
+          <span style={{ display: "inline-flex", alignItems: "baseline", gap: 1 }}>
+            <span>{formatHour(block.hour).num}</span>
+            <span style={{ fontSize: 8, fontWeight: 500, opacity: 0.7 }}>{formatHour(block.hour).period}</span>
+          </span>
         </button>
 
         {/* PLAN */}
         <div
           className={`cat-${block.category}`}
-          style={{ padding: "6px 8px", borderRadius: 12 }}
+          style={{ padding: "4px 8px", borderRadius: 12 }}
         >
-          <input
-            type="text"
+          <AutoShrinkCell
             value={block.plan}
-            onChange={(e) => onPlanChange(e.target.value)}
+            onChange={onPlanChange}
             placeholder="—"
-            style={{ fontSize: 12, fontWeight: 400, padding: 0 }}
           />
         </div>
 
@@ -659,13 +789,11 @@ function TimeBlockRow({
         </div>
 
         {/* DO */}
-        <div style={{ padding: "6px 8px", borderRadius: 12, background: "var(--color-background)" }}>
-          <input
-            type="text"
+        <div style={{ padding: "4px 8px", borderRadius: 12, background: "var(--color-background)" }}>
+          <AutoShrinkCell
             value={block.actual}
-            onChange={(e) => onActualChange(e.target.value)}
+            onChange={onActualChange}
             placeholder="—"
-            style={{ fontSize: 12, fontWeight: 400, padding: 0 }}
           />
         </div>
       </div>

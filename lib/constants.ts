@@ -22,14 +22,14 @@ export const TIME_CATEGORIES: {
   label: string;
   color: string;
 }[] = [
-  { key: "focus", label: "집중", color: "#7B5EA7" },
-  { key: "meeting", label: "미팅", color: "#3B82F6" },
-  { key: "rest", label: "휴식", color: "#10B981" },
-  { key: "routine", label: "루틴", color: "#F59E0B" },
-  { key: "personal", label: "개인", color: "#EC4899" },
+  { key: "focus", label: "집중", color: "#6B52AE" },
+  { key: "meeting", label: "미팅", color: "#7B5EA7" },
+  { key: "rest", label: "휴식", color: "#B4A0E5" },
+  { key: "routine", label: "루틴", color: "#8B72CE" },
+  { key: "personal", label: "개인", color: "#D4C5F0" },
 ];
 
-export const HOURS = Array.from({ length: 18 }, (_, i) => i + 6); // 6~23
+export const HOURS = [...Array.from({ length: 18 }, (_, i) => i + 6), 0, 1, 2, 3, 4, 5]; // 6~23, 0~5
 
 export const DAYS_KO = ["월", "화", "수", "목", "금", "토", "일"];
 

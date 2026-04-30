@@ -31,12 +31,12 @@
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
-  /* Category */
-  --color-focus: #7B5EA7;
-  --color-meeting: #3B82F6;
-  --color-rest: #10B981;
-  --color-routine: #F59E0B;
-  --color-personal: #EC4899;
+  /* Category — Lavender family */
+  --color-focus: #6B52AE;
+  --color-meeting: #7B5EA7;
+  --color-rest: #B4A0E5;
+  --color-routine: #8B72CE;
+  --color-personal: #D4C5F0;
 
   /* Objective accent palette */
   --color-gold: #F59E0B;
@@ -213,8 +213,8 @@ button:active {
 }
 
 /* Timeblock category colors — light tints with left accent */
-.cat-focus { background: #F0ECFA; border-left: 3px solid var(--color-focus); }
-.cat-meeting { background: #EFF6FF; border-left: 3px solid var(--color-meeting); }
-.cat-rest { background: #ECFDF5; border-left: 3px solid var(--color-rest); }
-.cat-routine { background: #FFFBEB; border-left: 3px solid var(--color-routine); }
-.cat-personal { background: #FDF2F8; border-left: 3px solid var(--color-personal); }
+.cat-focus { background: #EEEAFC; border-left: 3px solid var(--color-focus); }
+.cat-meeting { background: #F0ECFA; border-left: 3px solid var(--color-meeting); }
+.cat-rest { background: #F5F2FC; border-left: 3px solid var(--color-rest); }
+.cat-routine { background: #F0ECFA; border-left: 3px solid var(--color-routine); }
+.cat-personal { background: #F8F5FD; border-left: 3px solid var(--color-personal); }

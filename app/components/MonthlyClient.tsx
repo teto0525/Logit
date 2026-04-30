@@ -289,9 +289,9 @@ function CalendarGrid({
                 fontWeight: 700,
                 color:
                   i === 0
-                    ? "#EF4444"
+                    ? "var(--color-accent-text, #7B5EA7)"
                     : i === 6
-                    ? "#3B82F6"
+                    ? "var(--color-accent, #B4A0E5)"
                     : "var(--color-muted)",
                 padding: "2px 0",
               }}
@@ -340,9 +340,9 @@ function CalendarGrid({
                     fontWeight: 500,
                     lineHeight: 1,
                     color: isSun
-                      ? "#EF4444"
+                      ? "var(--color-accent-text, #7B5EA7)"
                       : isSat
-                      ? "#3B82F6"
+                      ? "var(--color-accent, #B4A0E5)"
                       : "var(--color-foreground)",
                   }}
                 >
@@ -430,7 +430,7 @@ function Section({
             height: 36,
             borderRadius: 9999,
             border: "none",
-            background: "var(--color-primary, #111111)",
+            background: "var(--color-accent-text, #7B5EA7)",
             color: "#fff",
             fontSize: 20,
             lineHeight: 1,
@@ -759,7 +759,7 @@ function AddAppointmentForm({
             padding: "10px 20px",
             borderRadius: 9999,
             border: "none",
-            background: "var(--color-primary, #111111)",
+            background: "var(--color-accent-text, #7B5EA7)",
             color: "#fff",
             cursor: "pointer",
           }}

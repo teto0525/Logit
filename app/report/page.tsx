@@ -93,12 +93,12 @@ export default function ReportPage() {
   return (
     <div style={{ paddingBottom: 48 }}>
       {/* Header */}
-      <header style={{ padding: "20px 20px 0", background: "linear-gradient(160deg, #C0D4F0 0%, #D8EAF8 60%, #EDE8F8 100%)" }}>
-        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 600, fontStyle: "italic", margin: "0 0 4px", color: "var(--color-ink, #111111)" }}>리포트</h1>
-        <p style={{ fontSize: 13, color: "var(--color-muted, #6B7280)", fontWeight: 500, margin: "0 0 16px" }}>나의 패턴을 분석해보세요</p>
+      <header style={{ padding: "20px 20px 0", background: "linear-gradient(160deg, #8B72CE 0%, #B4A0E5 50%, #D4C5F0 100%)" }}>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 600, fontStyle: "italic", margin: "0 0 4px", color: "#FFFFFF" }}>리포트</h1>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", fontWeight: 500, margin: "0 0 16px" }}>나의 패턴을 분석해보세요</p>
 
         {/* Period Underline Tab */}
-        <div style={{ display: "flex", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
+        <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.2)" }}>
           {(["week", "month", "all"] as const).map((p) => (
             <button
               key={p}
@@ -106,11 +106,11 @@ export default function ReportPage() {
               style={{
                 flex: 1, padding: "12px 0", fontSize: 15, fontWeight: 600,
                 border: "none",
-                borderBottom: period === p ? "2px solid var(--color-primary)" : "2px solid transparent",
+                borderBottom: period === p ? "2px solid #FFFFFF" : "2px solid transparent",
                 cursor: "pointer",
                 background: "transparent",
-                color: period === p ? "var(--color-ink)" : "var(--color-muted)",
-                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                color: period === p ? "#FFFFFF" : "rgba(255,255,255,0.6)",
+                transition: "color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
                 marginBottom: -1,
               }}
             >
@@ -223,18 +223,18 @@ export default function ReportPage() {
             {bestHabit && (
               <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
                 <div style={{
-                  flex: 1, background: "var(--color-success)" + "15", borderRadius: 12, padding: "12px 14px",
-                  borderLeft: "3px solid var(--color-success)",
+                  flex: 1, background: "var(--color-accent-light, #EDE8F8)", borderRadius: 12, padding: "12px 14px",
+                  borderLeft: "3px solid var(--color-accent-text, #7B5EA7)",
                 }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: "var(--color-success)", marginBottom: 2 }}>베스트</div>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "var(--color-accent-text, #7B5EA7)", marginBottom: 2 }}>베스트</div>
                   <div style={{ fontSize: 14, fontWeight: 600, color: "var(--color-body)" }}>{bestHabit.title} ({bestHabit.pct}%)</div>
                 </div>
                 {worstHabit && worstHabit.title !== bestHabit.title && (
                   <div style={{
-                    flex: 1, background: "var(--color-warning)" + "15", borderRadius: 12, padding: "12px 14px",
-                    borderLeft: "3px solid var(--color-warning)",
+                    flex: 1, background: "var(--color-background, #F7F5F0)", borderRadius: 12, padding: "12px 14px",
+                    borderLeft: "3px solid var(--color-muted-soft, #9CA3AF)",
                   }}>
-                    <div style={{ fontSize: 11, fontWeight: 600, color: "var(--color-warning)", marginBottom: 2 }}>개선 필요</div>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: "var(--color-muted, #6B7280)", marginBottom: 2 }}>개선 필요</div>
                     <div style={{ fontSize: 14, fontWeight: 600, color: "var(--color-body)" }}>{worstHabit.title} ({worstHabit.pct}%)</div>
                   </div>
                 )}
@@ -245,12 +245,12 @@ export default function ReportPage() {
               <div key={h.title} style={{ marginBottom: 10 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
                   <span style={{ fontSize: 13, color: "var(--color-body)" }}>{h.title}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: h.pct >= 80 ? "var(--color-success)" : "var(--color-body)" }}>{h.pct}%</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: h.pct >= 80 ? "var(--color-accent-text, #7B5EA7)" : "var(--color-body)" }}>{h.pct}%</span>
                 </div>
                 <div style={{ height: 6, borderRadius: 3, background: "var(--color-background)", overflow: "hidden" }}>
                   <div style={{
                     height: "100%", borderRadius: 3, width: `${h.pct}%`,
-                    background: h.pct >= 80 ? "var(--color-success)" : h.pct >= 50 ? "var(--color-primary)" : "var(--color-muted)",
+                    background: h.pct >= 80 ? "var(--color-accent-text, #7B5EA7)" : h.pct >= 50 ? "var(--color-accent, #B4A0E5)" : "var(--color-muted-soft, #9CA3AF)",
                     transition: "width 0.3s ease",
                   }} />
                 </div>

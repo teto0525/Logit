@@ -66,7 +66,7 @@ Logit●   ← 라벤더 dot (#B4A0E5)
 |------|-----------|
 | 앱 아이콘 / 스트릭 카드 | `linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)` |
 | My 페이지 헤더 | `linear-gradient(160deg, #8B72CE 0%, #B4A0E5 50%, #D4C5F0 100%)` |
-| Report 헤더 | `linear-gradient(160deg, #C0D4F0 0%, #D8EAF8 60%, #EDE8F8 100%)` |
+| Report 헤더 | `linear-gradient(160deg, #8B72CE 0%, #B4A0E5 50%, #D4C5F0 100%)` |
 
 ### Status Colors
 
@@ -82,11 +82,11 @@ Logit●   ← 라벤더 dot (#B4A0E5)
 
 | 카테고리 | 색상 | Tint 배경 | CSS 클래스 |
 |----------|------|-----------|-----------|
-| 집중 | `#7B5EA7` 라벤더 | `#F0ECFA` | `.cat-focus` |
-| 미팅 | `#3B82F6` 블루 | `#EFF6FF` | `.cat-meeting` |
-| 휴식 | `#10B981` 그린 | `#ECFDF5` | `.cat-rest` |
-| 루틴 | `#F59E0B` 앰버 | `#FFFBEB` | `.cat-routine` |
-| 개인 | `#EC4899` 핑크 | `#FDF2F8` | `.cat-personal` |
+| 집중 | `#6B52AE` 라벤더 다크 | `#EEEAFC` | `.cat-focus` |
+| 미팅 | `#7B5EA7` 라벤더 텍스트 | `#F0ECFA` | `.cat-meeting` |
+| 휴식 | `#B4A0E5` 라벤더 | `#F5F2FC` | `.cat-rest` |
+| 루틴 | `#8B72CE` 라벤더 딥 | `#F0ECFA` | `.cat-routine` |
+| 개인 | `#D4C5F0` 라벤더 라이트 | `#F8F5FD` | `.cat-personal` |
 
 ### Objective Accent Palette
 
@@ -109,12 +109,12 @@ Logit●   ← 라벤더 dot (#B4A0E5)
 
 | 페이지 | 헤더/배경 | 색 온도 | 특징 |
 |--------|-----------|---------|------|
-| Daily | 시간대별 자동 그라디언트 (5단계) | 동적 | 하루의 흐름을 색으로 표현 |
+| Daily | Warm Ivory (기본) + 시간대 아이콘 | 뉴트럴 | 아이콘으로 시간대 표현 |
 | Weekly | 요일별 파스텔 헤더 띠 (7색) | 무지개 | 요일마다 다른 파스텔 |
 | Monthly | Warm Ivory (기본) | 뉴트럴 | 달력 중심, 색상은 약속 도트에 집중 |
 | Plan | Warm Ivory (기본) | 뉴트럴 | 프로젝트 컬러바가 색상 역할 |
 | Tracker | 앰버 / 그린 / 라벤더 SummaryCard | 3색 | 달성감을 색으로 보상 |
-| Report | 쿨블루 → 라벤더 그라디언트 | 쿨 블루 | 분석/데이터의 느낌 |
+| Report | 라벤더 그라디언트 배너 | 브랜드 퍼플 | 분석/데이터의 느낌 |
 | My | 라벤더 그라디언트 배너 | 브랜드 퍼플 | 프로필 = 브랜드 아이덴티티 |
 | Value | Warm Ivory (기본) | 뉴트럴 | 레이더 차트가 라벤더 액센트 |
 
