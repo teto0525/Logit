@@ -67,6 +67,28 @@ function getGreeting(): string {
   return "오늘 하루 수고했어요";
 }
 
+function getTimeGradient(): string {
+  const hour = new Date().getHours();
+  if (hour >= 6 && hour < 10) {
+    // 아침 — 일출: 아이보리 → 골드
+    return "linear-gradient(180deg, #EDE8DE 0%, #F2E0A8 100%)";
+  }
+  if (hour >= 10 && hour < 14) {
+    // 점심 — 맑은 하늘: 블루 → 스카이블루
+    return "linear-gradient(180deg, #C0D4F0 0%, #D8EAF8 100%)";
+  }
+  if (hour >= 14 && hour < 17) {
+    // 낮 — 골든아워: 블러시핑크 → 피치
+    return "linear-gradient(180deg, #F0DCD4 0%, #F4DCC0 100%)";
+  }
+  if (hour >= 17 && hour < 21) {
+    // 저녁 — 석양: 더스티 라벤더 → 피치 오렌지
+    return "linear-gradient(180deg, #C8B8D4 0%, #E8C8A0 100%)";
+  }
+  // 새벽 (21시~6시) — 밤하늘: 쿨 슬레이트 → 세이지
+  return "linear-gradient(180deg, #C8D0D4 0%, #D8D8CC 100%)";
+}
+
 function getStreakMessage(streak: number): string {
   if (streak === 0) return "오늘부터 시작해볼까요?";
   if (streak < 3) return "좋은 시작이에요!";
@@ -247,12 +269,13 @@ export default function DailyPage() {
   });
 
   return (
-    <div style={{ paddingBottom: 40 }}>
+    <div style={{ paddingBottom: 40, background: getTimeGradient(), minHeight: "100%" }}>
       <PageHeader
         title={formatDateDisplay(date)}
         subtitle="Daily"
         prevHref={`/daily/${addDays(date, -1)}`}
         nextHref={`/daily/${addDays(date, 1)}`}
+        transparent
       />
 
       {/* 인사 + 스트릭 카드 */}

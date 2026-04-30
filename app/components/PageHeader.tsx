@@ -9,6 +9,7 @@ interface PageHeaderProps {
   nextHref?: string;
   prevLabel?: string;
   nextLabel?: string;
+  transparent?: boolean;
 }
 
 export function PageHeader({
@@ -18,6 +19,7 @@ export function PageHeader({
   nextHref,
   prevLabel = "‹",
   nextLabel = "›",
+  transparent = false,
 }: PageHeaderProps) {
   return (
     <header
@@ -26,7 +28,7 @@ export function PageHeader({
         alignItems: "center",
         justifyContent: "space-between",
         padding: "24px 24px 20px",
-        background: "var(--color-background)",
+        background: transparent ? "transparent" : "var(--color-background)",
         borderBottom: "none",
       }}
     >
