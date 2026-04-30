@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ─── Light & Warm — Notebook-inspired tokens ─── */
+  --color-background: #FAF8F4;
+  --color-foreground: #1A1A1A;
+  --color-card: #FFFFFF;
+  --color-surface: #FAF8F4;
+  --color-surface-card: #FFFFFF;
+  --color-surface-strong: #F0EDE8;
+  --color-border: #E5E2DC;
+  --color-border-soft: #F0EDE8;
+
+  /* Text hierarchy */
+  --color-ink: #111111;
+  --color-body: #374151;
+  --color-muted: #6B7280;
+  --color-muted-soft: #9CA3AF;
+
+  /* Accent — warm black primary */
+  --color-primary: #111111;
+  --color-primary-active: #242424;
+  --color-primary-light: #F0EDE8;
+  --color-on-primary: #FFFFFF;
+
+  /* Semantic */
+  --color-accent: #111111;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+
+  /* Category */
+  --color-focus: #111111;
+  --color-meeting: #6B7280;
+  --color-rest: #10B981;
+  --color-routine: #9CA3AF;
+  --color-personal: #8B5CF6;
+
+  /* Objective accent palette */
+  --color-gold: #F59E0B;
+  --color-warm: #FB923C;
+  --color-sage: #10B981;
+  --color-purple: #8B5CF6;
+  --color-blue: #3B82F6;
+  --color-coral: #EF4444;
+
+  /* Rounded scale */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --font-sans: "DM Sans", var(--font-noto-sans-kr), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "DM Sans", sans-serif;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+/* App shell */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--color-background);
+}
+
+/* Bottom Navigation — Light glass */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--color-border);
+  padding: 8px 0 4px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+}
+
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.bottom-nav a.active {
+  color: var(--color-primary);
+}
+
+.bottom-nav a.active::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+}
+
+.bottom-nav a svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bottom-nav a.active svg {
+  transform: scale(1.05);
+}
+
+/* Shared input styles */
+input[type="text"],
+textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  width: 100%;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: var(--color-muted-soft);
+}
+
+/* Focus ring */
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--color-border);
+  outline-offset: -1px;
+  border-radius: 12px;
+}
+
+/* Smooth transitions — Material Design curve */
+button {
+  transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Timeblock category colors — light tints with left accent */
+.cat-focus { background: #F5F3EF; border-left: 3px solid var(--color-focus); }
+.cat-meeting { background: #F3F4F6; border-left: 3px solid var(--color-meeting); }
+.cat-rest { background: #ECFDF5; border-left: 3px solid var(--color-rest); }
+.cat-routine { background: #F5F3EF; border-left: 3px solid var(--color-routine); }
+.cat-personal { background: #F5F3FF; border-left: 3px solid var(--color-personal); }
