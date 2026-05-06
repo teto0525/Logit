@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192"><rect width="192" height="192" rx="38.400000000000006" fill="#FAF5ED"/><text x="96" y="111.35999999999999" font-family="Georgia,serif" font-size="80.64" font-weight="bold" fill="#B8922A" text-anchor="middle">B</text><text x="96" y="149.76" font-family="system-ui,sans-serif" font-size="24" fill="#A08878" text-anchor="middle">Journal</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8B72CE"/>
+      <stop offset="100%" stop-color="#6B52AE"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="42" fill="url(#bg)"/>
+  <text x="96" y="120" font-family="Georgia,serif" font-size="72" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="-2">L</text>
+  <rect x="60" y="132" width="72" height="3" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+  <text x="96" y="158" font-family="system-ui,-apple-system,sans-serif" font-size="18" font-weight="600" fill="rgba(255,255,255,0.85)" text-anchor="middle" letter-spacing="4">LOGIT</text>
+</svg>

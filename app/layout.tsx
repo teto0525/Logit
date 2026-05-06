@@ -51,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${fraunces.variable} ${dmSans.variable} ${notoSansKR.variable} antialiased`}>
       <head>
-        <link rel="apple-touch-icon" href="/icon-192.svg" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body>
         <SwRegister />
