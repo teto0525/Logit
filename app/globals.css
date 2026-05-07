@@ -218,3 +218,9 @@ button:active {
 .cat-rest { background: #F5F2FC; border-left: 3px solid var(--color-rest); }
 .cat-routine { background: #F0ECFA; border-left: 3px solid var(--color-routine); }
 .cat-personal { background: #F8F5FD; border-left: 3px solid var(--color-personal); }
+
+/* Bottom sheet slide-up animation */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
