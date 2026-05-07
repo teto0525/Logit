@@ -227,6 +227,7 @@ export default function DailyPage() {
   const [habitTracker, setHabitTracker] = useState<HabitTrackerData | null>(null);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [sheetMode, setSheetMode] = useState<SheetMode>(null);
+  const [viewMode, setViewMode] = useState<"plan" | "do">("plan");
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -324,6 +325,17 @@ export default function DailyPage() {
       const newDone = !vb.done;
       const blocks = log.timeBlocks.map((b) =>
         vb.hours.includes(b.hour) ? { ...b, done: newDone } : b
+      );
+      save({ ...log, timeBlocks: blocks });
+    },
+    [log, save]
+  );
+
+  const handleUpdateActual = useCallback(
+    (vb: VisualBlock, newActual: string) => {
+      if (!log) return;
+      const blocks = log.timeBlocks.map((b) =>
+        vb.hours.includes(b.hour) ? { ...b, actual: newActual } : b
       );
       save({ ...log, timeBlocks: blocks });
     },
@@ -432,9 +444,9 @@ export default function DailyPage() {
       {/* ── 오늘의 집중 — Calendar Timeline ── */}
       <div style={{ padding: "0 20px", marginBottom: 16 }}>
         <div style={{ background: "var(--color-card)", borderRadius: 24, padding: "24px", boxShadow: "var(--shadow-card)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 700, margin: 0, color: "var(--color-ink)", textWrap: "balance" as const }}>
-              오늘의 집중
+              데일리 플랜
             </h2>
             <span style={{
               fontSize: 15, fontWeight: 700, fontVariantNumeric: "tabular-nums",
@@ -444,30 +456,51 @@ export default function DailyPage() {
             </span>
           </div>
 
+          {/* Plan / Do 토글 */}
+          <div style={{ display: "flex", gap: 4, marginBottom: 16, background: "var(--color-background)", borderRadius: 9999, padding: 3 }}>
+            {(["plan", "do"] as const).map((m) => {
+              const active = viewMode === m;
+              return (
+                <button key={m} onClick={() => setViewMode(m)} style={{
+                  flex: 1, padding: "8px 0", borderRadius: 9999, border: "none",
+                  background: active ? "var(--color-card)" : "transparent",
+                  color: active ? "var(--color-ink)" : "var(--color-muted)",
+                  fontSize: 13, fontWeight: 700, cursor: "pointer",
+                  boxShadow: active ? "var(--shadow-button)" : "none",
+                  transition: "background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease",
+                }}>{m === "plan" ? "Plan" : "Do"}</button>
+              );
+            })}
+          </div>
+
           <CalendarTimeline
             timeBlocks={log.timeBlocks}
+            viewMode={viewMode}
             onAddAt={(hour) => setSheetMode({ mode: "add", defaultHour: hour })}
             onEdit={(vb) => setSheetMode({ mode: "edit", visualBlock: vb })}
             onToggleDone={toggleDoneVisual}
+            onUpdateActual={handleUpdateActual}
           />
 
-          {/* FAB — + 일정 추가 */}
-          <button
-            onClick={() => setSheetMode({ mode: "add", defaultHour: new Date().getHours() })}
-            style={{
-              display: "flex", alignItems: "center", gap: 8, padding: "12px 20px", marginTop: 16,
-              borderRadius: 9999, border: "none",
-              background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
-              color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(107,82,174,0.35)",
-              transition: "transform 0.15s cubic-bezier(0.4,0,0.2,1)",
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 2v12M2 8h12" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
-            </svg>
-            일정 추가
-          </button>
+          {/* FAB — Plan 모드에서만 표시 */}
+          {viewMode === "plan" && (
+            <button
+              onClick={() => setSheetMode({ mode: "add", defaultHour: new Date().getHours() })}
+              style={{
+                display: "flex", alignItems: "center", gap: 8, padding: "12px 20px", marginTop: 16,
+                borderRadius: 9999, border: "none",
+                background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
+                color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(107,82,174,0.35)",
+                transition: "transform 0.15s cubic-bezier(0.4,0,0.2,1)",
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 2v12M2 8h12" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
+              </svg>
+              일정 추가
+            </button>
+          )}
         </div>
       </div>
 
@@ -559,13 +592,15 @@ export default function DailyPage() {
 
 // ─── CalendarTimeline ────────────────────────────────────
 
-function CalendarTimeline({ timeBlocks, onAddAt, onEdit, onToggleDone }: {
+function CalendarTimeline({ timeBlocks, viewMode, onAddAt, onEdit, onToggleDone, onUpdateActual }: {
   timeBlocks: TimeBlock[];
+  viewMode: "plan" | "do";
   onAddAt: (hour: number) => void;
   onEdit: (vb: VisualBlock) => void;
   onToggleDone: (vb: VisualBlock) => void;
+  onUpdateActual: (vb: VisualBlock, actual: string) => void;
 }) {
-  const { visualBlocks, emptyHours } = useMemo(() => buildVisualBlocks(timeBlocks), [timeBlocks]);
+  const { visualBlocks } = useMemo(() => buildVisualBlocks(timeBlocks), [timeBlocks]);
 
   // Build render list: iterate HOURS, emit TimeSlotRow or EventBlock (only at startHour)
   const rendered = new Set<string>();
@@ -588,6 +623,7 @@ function CalendarTimeline({ timeBlocks, onAddAt, onEdit, onToggleDone }: {
               key={hour}
               hour={hour}
               isCurrentHour={hour === currentHour}
+              viewMode={viewMode}
               onTap={() => onAddAt(hour)}
             />
           );
@@ -602,9 +638,11 @@ function CalendarTimeline({ timeBlocks, onAddAt, onEdit, onToggleDone }: {
           <EventBlockCard
             key={vbKey}
             vb={vb}
+            viewMode={viewMode}
             isCurrentHour={vb.hours.includes(currentHour)}
             onTap={() => onEdit(vb)}
             onToggleDone={() => onToggleDone(vb)}
+            onUpdateActual={(actual) => onUpdateActual(vb, actual)}
           />
         );
       })}
@@ -614,15 +652,16 @@ function CalendarTimeline({ timeBlocks, onAddAt, onEdit, onToggleDone }: {
 
 // ─── TimeSlotRow (empty slot) ────────────────────────────
 
-function TimeSlotRow({ hour, isCurrentHour, onTap }: {
-  hour: number; isCurrentHour: boolean; onTap: () => void;
+function TimeSlotRow({ hour, isCurrentHour, viewMode, onTap }: {
+  hour: number; isCurrentHour: boolean; viewMode: "plan" | "do"; onTap: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
   const h = formatHourShort(hour);
+  const canAdd = viewMode === "plan";
 
   return (
     <div
-      onClick={onTap}
+      onClick={canAdd ? onTap : undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -630,7 +669,7 @@ function TimeSlotRow({ hour, isCurrentHour, onTap }: {
         gridTemplateColumns: "44px 1fr",
         gap: 8,
         minHeight: 44,
-        cursor: "pointer",
+        cursor: canAdd ? "pointer" : "default",
         position: "relative",
       }}
     >
@@ -668,10 +707,10 @@ function TimeSlotRow({ hour, isCurrentHour, onTap }: {
         borderBottom: "1px solid var(--color-border-soft, #F0EDE8)",
         display: "flex", alignItems: "center", padding: "4px 8px",
         transition: "background 0.15s ease",
-        background: hovered ? "var(--color-background)" : "transparent",
-        borderRadius: hovered ? 8 : 0,
+        background: canAdd && hovered ? "var(--color-background)" : "transparent",
+        borderRadius: canAdd && hovered ? 8 : 0,
       }}>
-        {hovered && (
+        {canAdd && hovered && (
           <span style={{ fontSize: 12, color: "var(--color-muted-soft)", fontWeight: 500 }}>+ 추가</span>
         )}
       </div>
@@ -681,9 +720,9 @@ function TimeSlotRow({ hour, isCurrentHour, onTap }: {
 
 // ─── EventBlockCard ──────────────────────────────────────
 
-function EventBlockCard({ vb, isCurrentHour, onTap, onToggleDone }: {
-  vb: VisualBlock; isCurrentHour: boolean;
-  onTap: () => void; onToggleDone: () => void;
+function EventBlockCard({ vb, viewMode, isCurrentHour, onTap, onToggleDone, onUpdateActual }: {
+  vb: VisualBlock; viewMode: "plan" | "do"; isCurrentHour: boolean;
+  onTap: () => void; onToggleDone: () => void; onUpdateActual: (actual: string) => void;
 }) {
   const catInfo = TIME_CATEGORIES.find((c) => c.key === vb.category)!;
   const span = vb.hours.length;
@@ -714,77 +753,109 @@ function EventBlockCard({ vb, isCurrentHour, onTap, onToggleDone }: {
         })}
       </div>
 
-      {/* Event card */}
-      <button
-        onClick={onTap}
-        style={{
-          margin: "4px 0",
-          borderRadius: 14,
-          padding: "12px 14px",
-          display: "flex", flexDirection: "column", gap: 4,
-          textAlign: "left", border: "none", cursor: "pointer", width: "100%",
-          alignItems: "flex-start",
-          background: `${catInfo.color}15`,
-          borderLeft: `3px solid ${catInfo.color}`,
-          opacity: vb.done ? 0.55 : 1,
-          transition: "transform 0.15s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
-          position: "relative",
-        }}
-      >
-        {/* Current hour dot */}
-        {isCurrentHour && (
-          <div style={{
-            position: "absolute", top: 8, right: 8, width: 8, height: 8,
-            borderRadius: "50%", background: "var(--color-accent, #B4A0E5)",
-            boxShadow: "0 0 0 2px rgba(180,160,229,0.3)",
-          }} />
-        )}
-
-        {/* Top row: category + checkbox */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+      {/* ── Plan 모드: 기존 이벤트 카드 ── */}
+      {viewMode === "plan" ? (
+        <button
+          onClick={onTap}
+          style={{
+            margin: "4px 0", borderRadius: 14, padding: "12px 14px",
+            display: "flex", flexDirection: "column", gap: 4,
+            textAlign: "left", border: "none", cursor: "pointer", width: "100%",
+            alignItems: "flex-start",
+            background: `${catInfo.color}15`,
+            borderLeft: `3px solid ${catInfo.color}`,
+            opacity: vb.done ? 0.55 : 1,
+            transition: "transform 0.15s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease",
+            position: "relative",
+          }}
+        >
+          {isCurrentHour && (
+            <div style={{
+              position: "absolute", top: 8, right: 8, width: 8, height: 8,
+              borderRadius: "50%", background: "var(--color-accent, #B4A0E5)",
+              boxShadow: "0 0 0 2px rgba(180,160,229,0.3)",
+            }} />
+          )}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <span style={{
+              display: "inline-flex", alignItems: "center", gap: 4,
+              fontSize: 10, fontWeight: 700, color: catInfo.color, letterSpacing: "0.04em",
+            }}>
+              <span style={{ display: "inline-flex" }}>{CATEGORY_ICONS[vb.category]}</span>
+              {catInfo.label}
+            </span>
+          </div>
           <span style={{
-            display: "inline-flex", alignItems: "center", gap: 4,
-            fontSize: 10, fontWeight: 700, color: catInfo.color, letterSpacing: "0.04em",
-          }}>
-            <span style={{ display: "inline-flex" }}>{CATEGORY_ICONS[vb.category]}</span>
-            {catInfo.label}
+            fontSize: 14, fontWeight: 600, color: "var(--color-ink)", lineHeight: 1.3,
+          }}>{vb.plan}</span>
+          <span style={{ fontSize: 11, fontWeight: 500, color: "var(--color-muted)" }}>
+            {startLabel} – {endLabel}
           </span>
-          <button
-            onClick={(e) => { e.stopPropagation(); onToggleDone(); }}
+        </button>
+      ) : (
+        /* ── Do 모드: 실행 기록 카드 ── */
+        <div style={{
+          margin: "4px 0", borderRadius: 14, padding: "12px 14px",
+          display: "flex", flexDirection: "column", gap: 8,
+          background: `${catInfo.color}10`,
+          borderLeft: `3px solid ${catInfo.color}`,
+          position: "relative",
+        }}>
+          {isCurrentHour && (
+            <div style={{
+              position: "absolute", top: 8, right: 8, width: 8, height: 8,
+              borderRadius: "50%", background: "var(--color-accent, #B4A0E5)",
+              boxShadow: "0 0 0 2px rgba(180,160,229,0.3)",
+            }} />
+          )}
+
+          {/* Plan 참조 + 체크박스 */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: 4,
+                fontSize: 10, fontWeight: 700, color: catInfo.color, letterSpacing: "0.04em",
+              }}>
+                <span style={{ display: "inline-flex" }}>{CATEGORY_ICONS[vb.category]}</span>
+                {catInfo.label} · {startLabel} – {endLabel}
+              </span>
+              <span style={{
+                fontSize: 13, fontWeight: 600, color: "var(--color-muted)",
+                textDecoration: vb.done ? "line-through" : "none",
+              }}>{vb.plan}</span>
+            </div>
+            <button
+              onClick={onToggleDone}
+              style={{
+                width: 26, height: 26, borderRadius: "50%",
+                border: vb.done ? "none" : `2px solid ${catInfo.color}60`,
+                background: vb.done ? catInfo.color : "transparent",
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                padding: 0, flexShrink: 0, transition: "background 0.2s ease",
+              }}
+            >
+              {vb.done && (
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                  <path d="M1 5L4.5 8.5L11 1.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+            </button>
+          </div>
+
+          {/* Actual 인라인 입력 */}
+          <textarea
+            value={vb.actual}
+            onChange={(e) => onUpdateActual(e.target.value)}
+            placeholder="실제로 한 일을 기록하세요"
+            rows={2}
             style={{
-              width: 22, height: 22, borderRadius: "50%",
-              border: vb.done ? "none" : `2px solid ${catInfo.color}60`,
-              background: vb.done ? catInfo.color : "transparent",
-              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              padding: 0, flexShrink: 0, transition: "background 0.2s ease",
+              width: "100%", fontSize: 13, padding: "10px 12px", borderRadius: 10, border: "none",
+              background: "var(--color-card)", color: "var(--color-body)", resize: "none",
+              boxSizing: "border-box", fontFamily: "inherit", lineHeight: 1.5,
             }}
-          >
-            {vb.done && (
-              <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-                <path d="M1 5L4.5 8.5L11 1.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            )}
-          </button>
+          />
         </div>
-
-        {/* Title */}
-        <span style={{
-          fontSize: 14, fontWeight: 600, color: "var(--color-ink)", lineHeight: 1.3,
-          textDecoration: vb.done ? "line-through" : "none",
-        }}>{vb.plan}</span>
-
-        {/* Time range */}
-        <span style={{ fontSize: 11, fontWeight: 500, color: "var(--color-muted)" }}>
-          {startLabel} – {endLabel}
-        </span>
-
-        {/* Actual (memo) if exists */}
-        {vb.actual.trim() && (
-          <span style={{ fontSize: 12, color: "var(--color-muted)", fontStyle: "italic", marginTop: 2 }}>
-            {vb.actual}
-          </span>
-        )}
-      </button>
+      )}
     </div>
   );
 }
