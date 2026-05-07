@@ -8,7 +8,7 @@ import {
 } from "@/lib/storage";
 import {
   formatWeekId, weekIdToMonday, formatDate, formatYearMonth,
-  firstDayOfMonth, daysInMonth, uid,
+  firstDayOfMonth, daysInMonth, uid, today,
 } from "@/lib/dateUtils";
 import { DAYS_KO } from "@/lib/constants";
 import type { WeeklyPlan, DayPlan, Task, MonthlyPlan, Appointment } from "@/lib/types";
@@ -180,6 +180,19 @@ function WeeklySection({ weekId, onPrev, onNext }: { weekId: string; onPrev: () 
     [plan, persist]
   );
 
+  const editTask = useCallback(
+    (dayIndex: number, taskId: string, title: string, priority: Task["priority"]) => {
+      if (!plan) return;
+      const days = plan.days.map((day, i) =>
+        i === dayIndex
+          ? { ...day, tasks: day.tasks.map((t) => t.id === taskId ? { ...t, title, priority } : t) }
+          : day
+      );
+      persist({ ...plan, days });
+    },
+    [plan, persist]
+  );
+
   if (!plan) return null;
 
   const weekLabel = weekId.match(/W(\d+)$/)?.[0] ?? weekId;
@@ -212,6 +225,7 @@ function WeeklySection({ weekId, onPrev, onNext }: { weekId: string; onPrev: () 
             onAddTask={(title, priority) => addTask(index, title, priority)}
             onToggleTask={(taskId) => toggleTask(index, taskId)}
             onDeleteTask={(taskId) => deleteTask(index, taskId)}
+            onEditTask={(taskId, title, priority) => editTask(index, taskId, title, priority)}
           />
         ))}
       </div>
@@ -416,30 +430,61 @@ const navBtnStyle: React.CSSProperties = {
   boxShadow: "var(--shadow-button)",
 };
 
-function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
+function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask, onEditTask }: {
   day: DayPlan; dayIndex: number;
   onAddTask: (title: string, priority: Task["priority"]) => void;
   onToggleTask: (taskId: string) => void;
   onDeleteTask: (taskId: string) => void;
+  onEditTask: (taskId: string, title: string, priority: Task["priority"]) => void;
 }) {
   const [isAdding, setIsAdding] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newPriority, setNewPriority] = useState<Task["priority"]>("mid");
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editPriority, setEditPriority] = useState<Task["priority"]>("mid");
 
   const d = new Date(day.date + "T00:00:00");
   const label = `${DAYS_KO[dayIndex]} ${d.getMonth() + 1}/${d.getDate()}`;
+  const isToday = day.date === today();
+
+  const startEdit = (task: Task) => {
+    setEditingTaskId(task.id);
+    setEditTitle(task.title);
+    setEditPriority(task.priority);
+  };
+
+  const commitEdit = () => {
+    if (editingTaskId && editTitle.trim()) {
+      onEditTask(editingTaskId, editTitle.trim(), editPriority);
+    }
+    setEditingTaskId(null);
+    setEditTitle("");
+  };
 
   return (
     <div style={{
-      background: "var(--color-card)", borderRadius: 24, padding: 24,
-      marginBottom: 12, boxShadow: "var(--shadow-card)",
+      background: isToday ? "var(--color-accent-light, #EDE8F8)" : "var(--color-card)",
+      borderRadius: 24, padding: 24,
+      marginBottom: 12, boxShadow: isToday ? "0 0 0 2px var(--color-accent, #B4A0E5), var(--shadow-card)" : "var(--shadow-card)",
+      borderLeft: isToday ? "4px solid var(--color-accent, #B4A0E5)" : "4px solid transparent",
+      transition: "background 0.2s, box-shadow 0.2s",
     }}>
-      <div style={{ fontSize: 15, fontWeight: 700, color: "var(--color-ink)", marginBottom: 10 }}>{label}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+        <span style={{ fontSize: 15, fontWeight: 700, color: isToday ? "var(--color-accent-text, #7B5EA7)" : "var(--color-ink)" }}>{label}</span>
+        {isToday && (
+          <span style={{
+            fontSize: 11, fontWeight: 700, color: "#fff",
+            background: "var(--color-accent, #B4A0E5)", padding: "2px 8px",
+            borderRadius: 9999, lineHeight: "16px",
+          }}>오늘</span>
+        )}
+      </div>
 
       {day.tasks.map((task) => (
         <div key={task.id} style={{
           display: "flex", alignItems: "center", gap: 8, padding: "8px 0",
-          borderBottom: "1px solid var(--color-background)",
+          borderBottom: isToday ? "1px solid rgba(180,160,229,0.2)" : "1px solid var(--color-background)",
         }}>
           <button onClick={() => onToggleTask(task.id)} style={{
             flexShrink: 0, width: 20, height: 20, borderRadius: "50%",
@@ -449,18 +494,59 @@ function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
           }}>
             {task.done && <svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
           </button>
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: PRIORITY_COLORS[task.priority], opacity: task.done ? 0.4 : 1, flexShrink: 0 }} />
-          <span style={{
-            flex: 1, fontSize: 14, color: task.done ? "var(--color-muted)" : "var(--color-body)",
-            textDecoration: task.done ? "line-through" : "none",
-          }}>{task.title}</span>
-          <button onClick={() => onDeleteTask(task.id)} style={{
-            background: "transparent", border: "none", color: "var(--color-muted-soft)", fontSize: 14, cursor: "pointer", padding: 0, display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          </button>
+
+          {editingTaskId === task.id ? (
+            /* ── Inline Edit Mode ── */
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                <span style={{ fontSize: 11, color: "var(--color-muted)" }}>우선순위</span>
+                {(["high", "mid", "low"] as const).map((p) => (
+                  <button key={p} onClick={() => setEditPriority(p)} style={{
+                    width: 16, height: 16, borderRadius: 9999, background: PRIORITY_COLORS[p],
+                    border: editPriority === p ? "2px solid var(--color-ink)" : "2px solid transparent",
+                    cursor: "pointer", padding: 0, opacity: editPriority === p ? 1 : 0.45,
+                  }} />
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 6 }}>
+                <input autoFocus type="text" value={editTitle} onChange={(e) => setEditTitle(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") commitEdit();
+                    if (e.key === "Escape") { setEditingTaskId(null); setEditTitle(""); }
+                  }}
+                  style={{ flex: 1, fontSize: 14, padding: "8px 12px", borderRadius: 10, border: "none", background: isToday ? "rgba(255,255,255,0.7)" : "var(--color-background)", color: "var(--color-body)" }}
+                />
+                <button onClick={commitEdit}
+                  style={{ fontSize: 13, fontWeight: 700, padding: "8px 14px", borderRadius: 9999, border: "none", background: "var(--color-accent, #B4A0E5)", color: "#fff", cursor: "pointer" }}>완료</button>
+                <button onClick={() => { setEditingTaskId(null); setEditTitle(""); }}
+                  style={{ fontSize: 13, fontWeight: 600, padding: "8px 12px", borderRadius: 9999, border: "none", background: "var(--color-background)", color: "var(--color-muted)", cursor: "pointer" }}>취소</button>
+              </div>
+            </div>
+          ) : (
+            /* ── Read Mode ── */
+            <>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: PRIORITY_COLORS[task.priority], opacity: task.done ? 0.4 : 1, flexShrink: 0 }} />
+              <span
+                onClick={() => !task.done && startEdit(task)}
+                style={{
+                  flex: 1, fontSize: 14, color: task.done ? "var(--color-muted)" : "var(--color-body)",
+                  textDecoration: task.done ? "line-through" : "none",
+                  cursor: task.done ? "default" : "pointer",
+                  borderRadius: 6, padding: "2px 4px",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={(e) => { if (!task.done) (e.target as HTMLElement).style.background = isToday ? "rgba(255,255,255,0.5)" : "var(--color-background)"; }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.background = "transparent"; }}
+              >{task.title}</span>
+              <button onClick={() => onDeleteTask(task.id)} style={{
+                background: "transparent", border: "none", color: "var(--color-muted-soft)", fontSize: 14, cursor: "pointer", padding: 0, display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </>
+          )}
         </div>
       ))}
 
@@ -483,7 +569,7 @@ function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
                 if (e.key === "Escape") { setIsAdding(false); setNewTitle(""); }
               }}
               placeholder="할 일 입력..."
-              style={{ flex: 1, fontSize: 14, padding: "10px 14px", borderRadius: 12, border: "none", background: "var(--color-background)", color: "var(--color-body)" }}
+              style={{ flex: 1, fontSize: 14, padding: "10px 14px", borderRadius: 12, border: "none", background: isToday ? "rgba(255,255,255,0.7)" : "var(--color-background)", color: "var(--color-body)" }}
             />
             <button onClick={() => { if (newTitle.trim()) { onAddTask(newTitle.trim(), newPriority); setNewTitle(""); setIsAdding(false); } }}
               style={{ fontSize: 14, fontWeight: 700, padding: "10px 16px", borderRadius: 9999, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer" }}>추가</button>
@@ -491,7 +577,7 @@ function DayCard({ day, dayIndex, onAddTask, onToggleTask, onDeleteTask }: {
         </div>
       ) : (
         <button onClick={() => setIsAdding(true)} style={{
-          fontSize: 14, fontWeight: 600, color: "var(--color-muted)", background: "transparent", border: "none", cursor: "pointer", padding: "4px 0", marginTop: 4,
+          fontSize: 14, fontWeight: 600, color: isToday ? "var(--color-accent-text, #7B5EA7)" : "var(--color-muted)", background: "transparent", border: "none", cursor: "pointer", padding: "4px 0", marginTop: 4,
         }}>+ 할 일 추가</button>
       )}
     </div>
@@ -544,25 +630,45 @@ function MiniCalendar({ year, month, appointments }: { year: number; month: numb
             const dow = (startDow + day - 1) % 7;
             const hasAppts = dayAppts.length > 0;
             const isSelected = selectedDate === dateStr;
+            const isTodayCell = dateStr === today();
             return (
               <button
                 key={day}
                 onClick={() => hasAppts ? setSelectedDate(isSelected ? null : dateStr) : setSelectedDate(null)}
                 style={{
-                  background: isSelected ? "var(--color-accent-light, #EDE8F8)" : "var(--color-background)",
+                  background: isSelected
+                    ? "var(--color-accent-light, #EDE8F8)"
+                    : isTodayCell
+                      ? "var(--color-accent, #B4A0E5)"
+                      : "var(--color-background)",
                   borderRadius: 12,
                   padding: "6px 4px 5px", minHeight: 46,
                   display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
-                  border: isSelected ? "1.5px solid var(--color-accent, #B4A0E5)" : "1.5px solid transparent",
+                  border: isSelected
+                    ? "1.5px solid var(--color-accent, #B4A0E5)"
+                    : isTodayCell
+                      ? "1.5px solid var(--color-accent-text, #7B5EA7)"
+                      : "1.5px solid transparent",
                   cursor: hasAppts ? "pointer" : "default",
                   transition: "background 0.15s ease, border-color 0.15s ease",
+                  boxShadow: isTodayCell ? "0 2px 8px rgba(139,114,206,0.3)" : "none",
                 }}
               >
-                <span style={{ fontSize: 13, fontWeight: isSelected ? 700 : 500, color: dow === 0 ? "var(--color-accent-text, #7B5EA7)" : dow === 6 ? "var(--color-accent, #B4A0E5)" : "var(--color-ink)" }}>{day}</span>
+                <span style={{
+                  fontSize: 13,
+                  fontWeight: isTodayCell || isSelected ? 700 : 500,
+                  color: isTodayCell
+                    ? "#FFFFFF"
+                    : dow === 0
+                      ? "var(--color-accent-text, #7B5EA7)"
+                      : dow === 6
+                        ? "var(--color-accent, #B4A0E5)"
+                        : "var(--color-ink)",
+                }}>{day}</span>
                 {hasAppts && (
                   <div style={{ display: "flex", gap: 2 }}>
                     {dayAppts.slice(0, 3).map((a) => (
-                      <span key={a.id} style={{ width: 6, height: 6, borderRadius: "50%", background: APPOINTMENT_TYPES.find((t) => t.key === a.type)?.color ?? "#9CA3AF" }} />
+                      <span key={a.id} style={{ width: 6, height: 6, borderRadius: "50%", background: isTodayCell ? "rgba(255,255,255,0.8)" : (APPOINTMENT_TYPES.find((t) => t.key === a.type)?.color ?? "#9CA3AF") }} />
                     ))}
                   </div>
                 )}
