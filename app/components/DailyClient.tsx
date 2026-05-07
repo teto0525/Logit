@@ -482,25 +482,23 @@ export default function DailyPage() {
             onUpdateActual={handleUpdateActual}
           />
 
-          {/* FAB — Plan 모드에서만 표시 */}
-          {viewMode === "plan" && (
-            <button
-              onClick={() => setSheetMode({ mode: "add", defaultHour: new Date().getHours() })}
-              style={{
-                display: "flex", alignItems: "center", gap: 8, padding: "12px 20px", marginTop: 16,
-                borderRadius: 9999, border: "none",
-                background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
-                color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer",
-                boxShadow: "0 2px 8px rgba(107,82,174,0.35)",
-                transition: "transform 0.15s cubic-bezier(0.4,0,0.2,1)",
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 2v12M2 8h12" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
-              </svg>
-              일정 추가
-            </button>
-          )}
+          {/* FAB — 일정 추가 */}
+          <button
+            onClick={() => setSheetMode({ mode: "add", defaultHour: new Date().getHours() })}
+            style={{
+              display: "flex", alignItems: "center", gap: 8, padding: "12px 20px", marginTop: 16,
+              borderRadius: 9999, border: "none",
+              background: "linear-gradient(135deg, #8B72CE 0%, #6B52AE 100%)",
+              color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(107,82,174,0.35)",
+              transition: "transform 0.15s cubic-bezier(0.4,0,0.2,1)",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v12M2 8h12" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"/>
+            </svg>
+            일정 추가
+          </button>
         </div>
       </div>
 
@@ -657,7 +655,7 @@ function TimeSlotRow({ hour, isCurrentHour, viewMode, onTap }: {
 }) {
   const [hovered, setHovered] = useState(false);
   const h = formatHourShort(hour);
-  const canAdd = viewMode === "plan";
+  const canAdd = true;
 
   return (
     <div
